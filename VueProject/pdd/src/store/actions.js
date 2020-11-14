@@ -22,7 +22,7 @@ export default {
     //提取服务端的请求数据并赋值给一个新的数组，也就是api文件夹下的index.js中的getHomeCasual函数所获取到的数据
     const result = await getHomeCasual();
     //commit 异步 触发指定的 mutations 中的方法
-    commit(HOME_CASUAL, {homecasual : result.message.data});
+    commit(HOME_CASUAL, {homecasual : result.message});
   },
   //获取首页导航
   async reqHomeNav({commit}){
