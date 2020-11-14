@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>全局组件</title>
+  <script src="../node_modules/vue/dist/vue.min.js"></script>
+  <style>
+    .default {
+      display: inline-block;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #dcdfe6;
+      color: #606266;
+      -webkit-appearance: none;
+      text-align: center;
+      box-sizing: border-box;
+      outline: none;
+      margin: 0;
+      transition: .1s;
+      font-weight: 500;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      padding: 12px 20px;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+
+    .primary {
+      color: #fff;
+      background-color: #409eff;
+      border-color: #409eff;
+    }
+
+    .success {
+      color: #fff;
+      background-color: #fcff40;
+      border-color: #ff40bf;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    //全局组件第一个参数是对象的名字,第二个参数是options
+    Vue.component('vbtn', {
+      template: `
+      <!--插槽 内置组件slot 作为承载分发内容的出口-->
+        <button class='default' :class='type'>
+          <slot>
+            按钮
+          </slot>
+        </button>
+      `,
+      props: ['type']
+    })
+
+    var Vheader = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我是头部组件</div>
+      `
+    }
+
+    var Vaside = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>
+          我是侧边栏组件
+          <vbtn/>
+        </div>
+      `
+    }
+    var Vcontent = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我内容组件
+          <vbtn type='primary'>主要按钮</vbtn>
+          <vbtn type='success'>成功按钮</vbtn>
+        </div>
+      `
+    }
+    var App = {
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        Vheader, Vaside, Vcontent
+      },
+      template: `
+        <div>
+          <Vheader/> 
+          <div>
+            <Vaside/>
+            <Vcontent/>  
+          </div>
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+
+      },
+      components: {
+        App
+      },
+      template: `
+        <App/>
+      `
+    });
+  </script>
+</body>
+
+</html>

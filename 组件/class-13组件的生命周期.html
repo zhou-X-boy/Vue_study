@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="../vue-2.4.0.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <App></App>
+  </div>
+  <script>
+    /*
+      beforeCreate
+      created
+      beforeMount
+      mounted
+      beforeUpdate
+      updated
+      activated
+      deactivated
+      beforeDestroy
+      destroyed
+      errorCaptured
+    */
+    Vue.component('Test', {
+      data() {
+        return {
+          msg: 'Hello World',
+          data: {}
+        }
+      },
+      template: `
+        <div>
+          <div>{{msg}}</div>
+          <button @click='changHandler'>改变</button>
+        </div>
+      `,
+      methods: {
+        changHandler() {
+          this.msg = this.msg + 'abc'
+        }
+      },
+      beforeCreate() {
+        //组件创建之前
+        console.log(this.msg);//undefine
+      },
+      created() {
+        //组件创建之后
+        console.log(this.msg);
+        //使用该组件就会调用created()方法
+        //在created这个方法中可以操作后端的数据 数据驱动视图
+        //应用，发起ajax请求
+        // $.ajax({
+        //   url: '',
+        //   methods: 'get',
+        //   success: (data) => {
+        //     this.data = data
+        //   }
+        // })
+      },
+      beforeMount() {
+        //挂载数据到DOM之前会调用
+        console.log(document.getElementById('app'));
+      },
+      mounted() {
+        //挂载数据到DOM之后会调用Vue作用以后的DOM
+        //应用 操作DOM
+        console.log(document.getElementById('app'));
+      },
+      beforeUpdate() {
+        //在更新DOM之前调用该钩子，
+        //应用 获取原始的DOM
+        console.log(document.getElementById('app').innerHTML);
+      },
+      updated() {
+        //在更新DOM之后调用该钩子
+        //应用 可以获取最新的DOM
+        console.log(document.getElementById('app').innerHTML);
+      },
+      beforeDestroy() {
+        //销毁之前
+        console.log('beforeDestroy')
+      },
+      destroyed() {
+        //销毁之后
+        console.log('destroy')
+      },
+      activated() {
+        console.log('组件被激活了')
+      },
+      deactivated() {
+        console.log('组件被停用了')
+      },
+    })
+    var App = {
+      data() {
+        return {
+          isShow: true
+        }
+      },
+      //vue内置组件<keep-alive></keep-alive>
+      //能在组件的切换过程中将状态保留在内存中
+      //防止重复渲染DOM
+      template: `
+        <div class='app'>
+          <keep-alive>
+            <Test v-if='isShow'/>
+          </keep-alive>
+          <button @click='isShow = !isShow'>改变生死</button>
+        </div>
+      `
+
+    }
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+
+      methods: {
+
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>计算属性</title>
+  <script src="../node_modules/vue/dist/vue.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    ul li {
+      margin: 20px 20px;
+      padding: 10px 5px;
+      border-radius: 3px;
+    }
+
+    ul li.active {
+      background-color: aquamarine;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <audio :src="getCurrentSongSrc" autoplay controls></audio>
+    <ul>
+      <li :class="{active:currentIndex == index}" v-for="(item,index) in musicData" @click="clickHandler(index)">
+        <h2>{{item.id}}-歌名：{{item.name}}</h2>
+        <p>歌：{{item.songSrc}}</p>
+      </li>
+
+    </ul>
+  </div>
+  <script>
+    var musicData = [
+      { id: 1, name: 'a-A', author: 'a', songSrc: '../audio/王恒争 - 四季没了你.mp3' },
+      { id: 2, name: 'b-B', author: 'b', songSrc: '../audio/陈麦麒 - 三十（2018版）.mp3' },
+      { id: 3, name: 'c-C', author: 'c', songSrc: '../audio/陈麦麒 - 青春（2018版）.mp3' },
+    ]
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          musicData: musicData,
+          currentIndex: 0
+        }
+      },
+      methods: {
+        clickHandler(index) {
+          this.currentIndex = index
+        }
+      },
+      computed: {
+        //计算属性默认值有getter
+        getCurrentSongSrc: function () {
+          return this.musicData[this.currentIndex].songSrc;
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>

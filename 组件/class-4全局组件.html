@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>全局组件</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    //全局组件第一个参数是对象的名字,第二个参数是options
+    Vue.component('vbtn', {
+      template: `
+        <button>按钮</button>
+      `
+    })
+
+    var Vheader = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我是头部组件</div>
+      `
+    }
+
+    var Vaside = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>
+          我是侧边栏组件
+          <vbtn/>
+        </div>
+      `
+    }
+    var Vcontent = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我内容组件</div>
+      `
+    }
+    var App = {
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        Vheader, Vaside, Vcontent
+      },
+      template: `
+        <div>
+          <Vheader/> 
+          <div>
+            <Vaside/>
+            <Vcontent/>  
+          </div>
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+
+      },
+      components: {
+        App
+      },
+      template: `
+        <App/>
+      `
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>局部组件的创建</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    //局部入口组件的声明
+    var App = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我是入口组件</div>
+      `
+    }
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+
+      },
+      //挂载子组件
+      components: {
+        // App:App
+        App
+      },
+      //父组件直接可以使用
+      template: `
+        <App></App>
+      `
+    });
+  </script>
+</body>
+
+</html>

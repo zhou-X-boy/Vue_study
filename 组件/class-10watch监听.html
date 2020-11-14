@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>watch监听</title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input v-model="msg" type="text" />
+        <h2>{{msg}}</h2>
+        <button @click="arr[0].name = '深度监视'">点击</button>
+        <h3>{{arr[0].name}}</h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: '',
+                    arr: [{
+                        name: 'ww'
+                    }]
+                }
+            },
+            methods: {
+
+            },
+            //watch监听的是单个属性
+            //基本数据类型 简单监听
+            //复杂数据类型 深度监视
+            watch: {
+                msg: function(newV, oldV) {
+                    // console.log(newV, oldV)
+                    if (newV === "abc") {
+                        console.log('监听成功')
+                    }
+                },
+                //监听复杂数据类型 object array 深度监视
+                arr: {
+                    deep: true, //深度监视
+                    handler: function(newV, oldV) {
+                        // console.log(newV)
+                        console.log(newV[0].name)
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

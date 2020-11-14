@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>局部组件</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    var Vheader = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我是头部组件</div>
+      `
+    }
+
+    var Vaside = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我是侧边栏组件</div>
+      `
+    }
+    var Vcontent = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>我内容组件</div>
+      `
+    }
+    var App = {
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        Vheader, Vaside, Vcontent
+      },
+      template: `
+        <div>
+          <Vheader/> 
+          <div>
+            <Vaside/>
+            <Vcontent/>  
+          </div>
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+
+      },
+      components: {
+        App
+      },
+      template: `
+        <App/>
+      `
+    });
+  </script>
+</body>
+
+</html>
