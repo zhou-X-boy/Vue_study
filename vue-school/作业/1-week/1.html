@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{data1}}
+			<br />
+			<button type="button" value="+1" @click="jia(1)">+1</button>
+		</div>
+		<button type="button" value="+2" onclick="vm.jia(2)">+2</button>
+		<script>
+			var vm=new Vue({
+				el:'#content',
+				data:{
+					data1:0
+				},
+				methods:{
+					jia:function(i){
+						this.data1+=i
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

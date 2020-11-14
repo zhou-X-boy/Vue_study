@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{msg}}
+			{{msg|gofilter(arry)}}
+		</div>
+		<script>
+			Vue.filter('gofilter',(value,arry)=>{
+				//拿出数组中每一个元素
+				arry.forEach(item=>{
+					let len=item.length
+					//得到*号
+					let str1='',str2='*'
+					for(let i=0;i<len;i++){
+						str1 += str2
+					}
+					if(value.indexOf(item) != -1){
+						value = value.replace(item,str1)
+					}
+				})
+				return value
+			})
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					msg:'nmhzm,mlgbz,mmp',
+					arry:[
+						'nm','mlgbz','mmp'
+					]
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>
+

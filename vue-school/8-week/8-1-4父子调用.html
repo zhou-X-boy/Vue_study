@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 父组件，可以在引用子组件的时候，通过属性绑定，把需要传递给子组件的数据，以属性绑定的形式，传递到子组件的内部，供子组件使用 -->
+			<com1 v-bind:sonmsg="msg"></com1>
+		</div>
+		<script>
+			new Vue({
+				el:'#app',
+				data: {
+					msg: "这是父组件数据"
+				},
+				methods: {
+					
+				},
+				components: {
+					com1: {
+						data() {
+							return{
+								title: 123,
+							}
+						},
+						template:`
+							<div>
+								<input type='button' value='点击' @click='chang'>
+								<p>这是子组件数据---{{sonmsg}}--{{title}}</p>
+							</div>
+						`,
+						props:['sonmsg'],
+						methods: {
+							chang(){
+								this.sonmsg = "被修改了",
+								this.title = "被修改了"
+							}
+						},
+						directives:{},
+						filters:{}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			.wh{
+				width: 140px;
+				height: 200px;
+				margin-top: 15px;
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<div class="wh">
+				<p>计算体脂率</p>
+				<input type="text" placeholder="输入体重（kg）"  v-model="tz" />
+				<input type="text" placeholder="输入身高（m）"  v-model="sg" />
+				<input type="button" value="计算" @click="JS" />
+				<input type="text" placeholder="体脂率"  v-model="tzl" />
+				<div v-if="Tf">
+					<p v-if="tzl<=18.4">偏瘦</p>
+					<p v-else-if="18.5<tzl&tzl<=23.9">正常</p>
+					<p v-else-if="24<tzl&tzl<=27.9">过重</p>
+					<p v-else>肥胖</p>
+				</div>
+			</div>
+			<div class="wh">
+				<!-- <h2>{{intr}}</h2> -->
+				<input type="button" value="点击获取当前时间" @click="time" />
+				现在是北京时间：
+					<input type="text" style="width: 50px;" v-model="hours">:
+					<input type="text" style="width: 50px;" v-model="min">
+				
+				<p v-if="hours<21 & hours>8">不需要休息</p>
+				<p v-else-if="hours>=21 & hours<=8">你应该休息了</p>
+			</div>
+		</div>
+		<script>
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					tz:'',
+					sg:'',
+					tzl:'',
+					Tf:false,
+					hours:'',
+					min:'',
+					intr:''
+				},
+				methods:{
+					JS:function(){
+						let u={
+							tz:this.tz,
+							sg:this.sg,
+						}
+						this.tzl=this.tz/this.sg/this.sg;
+						this.Tf=! this.Tf
+					},
+					time:function(){
+						var time = new Date();
+						this.hours=time.getHours();
+						this.min=time.getMinutes()<10?'0'+time.getMinutes():time.getMinutes();
+					   
+					   /* if(this.hours>5 && this.hours<=5){
+							this.intr="a";
+						}else if(this.hours>8 && this.hours<=12){
+							this.intr="b";
+						}else if(this.hours>12 && this.hours<22){
+							this.intr="c";
+						}else{
+							this.intr="d";
+						}
+						*/
+					}
+				}
+			})
+			//vm.time();
+		</script>
+	</body>
+</html>

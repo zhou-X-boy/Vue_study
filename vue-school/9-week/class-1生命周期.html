@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3 id='h3'>{{msg}}</h3>
+        <input type='button' value='点击' @click="msg='update数据更新后的数据'">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app ',
+            data() {
+                return {
+                    msg: '组件的生命周期 '
+                }
+            },
+            methods: {
+                show() {
+                    console.log('执行了methods当中的方法 ')
+                }
+            },
+            /*
+             *第一个生命周期函数 beforeCreate
+             *表示实例化完全被创建出来之前会执行他
+             */
+            beforeCreate() {
+                // this.show()
+                console.log(this.msg);
+            },
+            /**
+             * 第二个生命周期函数 created
+             * 在 created 中，data 和 methods 都已经被初始化好了
+             * 如果要调用 methods 中的方法，或者操作 data 中的数据。最早只能在 created 中操作
+             */
+            created() {
+                this.show();
+                console.log('生命周期函数 created 中调用data当中的数据和methods中的方法： ' + this.msg);
+            },
+            /**
+             * 第三个生命周期函数 beforeMount
+             * 表示模板已经在内存中编辑完成，但是尚未把模板渲染到页面中
+             * 在 beforeMount 执行的时候，页面中的元素还没有被真正替换过来，只是之前写的一些模板字符串
+             */
+            beforeMount() {
+                const msgShow = document.querySelector('h3 ').innerText;
+                console.log('生命周期函数beforeMount： ' + msgShow);
+            },
+            /**
+             * 第四个生命周期函数 mounted 执行完了mounted函数，就表示整个VUE实例已经创建完毕
+             * 表示内存中的模板已经真实挂载到了页面中，用户已经可以看到渲染好的页面
+             */
+            mounted() {
+                const msgShow = document.querySelector('h3 ').innerText;
+                console.log('生命周期函数mounted： ' + msgShow);
+            },
+            /**
+             * 第五个生命周期函数 beforeUpdate 
+             * 界面上的元素内容还未更新，DOM树没有生成
+             * data当中的msg数据已经加载完成了
+             * 标签当中的拿到的值还是旧的值，但是data当中的数据已经更新完成
+             * 当执行 beforeUpdate 的时候，页面当中的显示数据还是旧的，
+             * 此时data当中的数据是最新的，页面还未与最新的数据保持同步
+             */
+            beforeUpdate() {
+                console.log('beforeUpdate生命周期函数执行时界面上元素内容：' + document.getElementById('h3').innerHTML);
+                console.log('beforeUpdate生命周期函数执行时data中的msg数据是：' + this.msg);
+            },
+            /**
+             * 第六个生命周期函数 updated
+             * 当执行 update 后，页面当中的数据与data当中的最新数据保持同步
+             */
+            updated() {
+                console.log('updated生命周期函数执行后数据更新后界面上的内容：' + document.getElementById('h3').innerHTML);
+                console.log('updated生命周期函数执行后data中的msg数据是：' + this.msg);
+            },
+            /**
+             * 第七个生命周期函数 beforeDestroy
+             */
+            beforeDestroy() {
+                //销毁之前
+                console.log('beforeDestroy')
+            },
+            /**
+             * 第八个生命周期函数 destroyed
+             */
+            destroyed() {
+                //销毁之后
+                console.log('destroy')
+            },
+        });
+    </script>
+</body>
+
+</html>

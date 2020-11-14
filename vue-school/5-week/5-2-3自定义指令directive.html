@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<p v-vred="'red'">a</p>
+			
+		</div>
+		<script>
+			/*
+			 *自定义指令
+			 * 1：全局自定义指令
+			 *  1）基本写法
+			 *    Vue.directive('dire',{
+					钩子函数:回调(el,binding){
+						el.***=binding.value
+					}
+			      })
+				  说明钩子函数见下面：
+				  el指的是指令对应的容器（标签），固定参数；
+				  binding是一个对象，可以理解为v-指定=""后面的东西
+			 * 2：私有自定义指令
+			*/ 
+		    Vue.filter('filterdata',function(){});
+		    Vue.directive('vred',{
+			/*
+			 *bind:function(){//初始化},
+			 *inserted:function(){//插入父节点},
+			 *update:function(){//模板更新},
+			 *componentUpdated:function(){//模板更新一次后使用},
+			 *unbind:function(){//只使用一次，与元素解绑}
+			*/
+				bind:function(el,binding){
+					el.style.color=binding.value
+				}
+			});
+			// Vue.filter('focus',{
+			// 	bind:function(el){
+			// 		el.focus();
+			// 	}
+			// });
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					
+				},
+				methods:{},
+				filters:{},
+				directives:{
+					bind:function(el,binding){
+						
+					},
+					color:{
+						bind:function(el,binding){
+							
+						}
+					},
+					/* 
+					 //下面的写法默认为bind
+					'fontweight':function(el,binding2){
+						
+					}
+					*/
+				}
+			})
+		</script>
+	</body>
+</html>

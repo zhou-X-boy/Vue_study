@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{words}}
+			{{words|badword}}
+		</div>
+		<script>
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					words:"abcdefghijklmn",
+					arry:['a','efg','klmn']
+				},
+				beforeCreate(){
+					that=this
+				},
+				filters:{
+					badword:function(value){
+						var arry=that.arry
+						arry.forEach((index)=>{
+							var item=index.length
+							let str1="",str2="*"
+							for(let i=0;i<item;i++){
+								str1 += str2
+							}
+							if(value.indexOf(index)!=-1){
+								value = value .replace(index,str1)
+							}
+						})
+						return value
+					}
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

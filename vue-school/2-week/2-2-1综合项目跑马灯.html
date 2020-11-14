@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<input type="button" value="跑起来" @click="run()"/>
+			<input type="button" value="停下来" @click="stop()" />
+			<h3>{{str}}</h3>
+		</div>
+		<script>
+            /*
+			思考过程
+			1.直观要求：有两个按钮，一行文字————文字放入data当中---两个按钮要绑定两个方法
+			2，深一层次考虑：用几个方法，run(),stop()
+			3，怎么把头部文字拼到尾部，---第一个字没了放到最后一个位置
+			   拿到头部的字substring(0,1),除了头部以外的字substring(1)
+			解决问题
+			1，加入定时器后的指向问题，用箭头函数来解决
+			2、(重点)如何解决定时器运行的程序越来越快的问题——》原因是定时器不断的运行。
+			解决方案
+			1)先定义一个用于存放定时器编号
+			2）把定时器运行后赋值
+			3）设置判断，判断是否为空，如果不是空说明已经在运行定时器了，这个设置程序返回
+			4）在原生态javascript、jquery中可以定义一个var interId一样可以解决这个问题
+			3、如何停止运行
+			在jquery当中可以采取stop方法解决。因为他把停止的方法做成一个函数。
+			在原生态中停止运行，用的是clearInterval(intervalId)这个方法
+		   （重要）解决停止后重新运行起来（和解决问题2经常是在一起出现的问题）
+			*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					str:'江西工业贸易职业技术学院信息工程系',
+					intervalId:null
+				},
+				methods:{
+					run:function(){
+						// var start=this.str.substring(0,1);
+						// var end=this.str.substring(1);
+						// this.str=end+start
+						
+						// var that=this
+						// setInterval(function(){
+						//     var start=that.str.substring(0,1);
+						// 	var end=that.str.substring(1);
+						// 	that.str=end+start
+						// },400)
+						
+						// 第一步学习、添加定时器的方法,缺点:会越来越快,
+						// setInterval(()=>{
+						// 	var start=this.str.substring(0,1);
+						// 	var end=this.str.substring(1);
+						// 	this.str=end+start
+						// },400)
+						// 第二步学习
+						// 如果我们需要停止,那么需要指定停止的对象
+						// 1.在data当中加入一个空的数据
+						
+						//解决定时器反复添加的问题
+					   if(this.intervalId=null) return
+						
+						this.intervalId=setInterval(()=>{
+							var start=this.str.substring(0,1);
+							var end=this.str.substring(1);
+							this.str=end+start
+						},400)
+						
+						
+					},
+					stop:function(){
+						clearInterval(this.intervalId);
+						this.intervalId=null
+					
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#app{
+				width: 600px;
+			}
+			.wh{
+				width: 600px;
+				height: 40px;
+				background-color: #F0F8FF;
+			}
+			.wh a{
+				display: block;
+				width: 150px;
+				line-height:40px ;
+				float: left;
+				text-align: center;
+				font-size: 18px;
+			}
+			.wh .bg{
+				background-color: skyblue;
+			}
+			.content{
+				width: 600px;
+				height: 200px;
+				background-color: #FAEBD7;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="wh">
+				<a @click="showid=1" :class="{'bg':showid===1}">a</a>
+				<a @click="showid=2" :class="{'bg':showid===2}">b</a>
+				<a @click="showid=3" :class="{'bg':showid===3}">c</a>
+				<a @click="showid=4" :class="{'bg':showid===4}">d</a>
+			</div>
+			<div class="content">
+				<div v-show="showid===1">A</div>
+				<div v-show="showid===2">B</div>
+				<div v-show="showid===3">C</div>
+				<div v-show="showid===4">D</div>
+			</div>
+		</div>
+		<script>
+			var vm=new Vue({
+				el:"#app",
+				data:{
+					showid:1
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

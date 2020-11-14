@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<link href="../animate.min.css" />
+		<style>
+			.ball{
+				width: 200px;
+				height: 200px;
+				line-height: 200px;
+				color: palegreen;
+				border-radius: 50%;
+				background: cadetblue;
+				margin: 50px;
+				transition: all 2s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="button" value="点击" @click="flag = !flag">
+			<transition
+				@before-enter="beforeEnter"
+				@enter="enter"
+				@after-enter="afterEnter">
+				
+				<div class="ball" v-show="flag"></div>
+			</transition>
+		</div>
+		<script>
+			/*
+			*v-on:before-enter='beforeEnter'
+			*  v-on:enter='enter'
+			*  v-on:after-enter='afterEnter'
+			*  v-on:enter-cancelled='enterCancelled'
+			* 
+			*  v-on:before-leave='beforeLeave'
+			*  v-on:leave='leave'
+			*  v-on:after-leave='afterLeave'
+			*  v-on:leave-cancelled='leaveCancelled'*/ 
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					flag: false
+				},
+				methods: {
+					//注意：动画钩子函数的第一个参数：el. 表示要执行动画
+					beforeEnter(el){
+						el.style.transform = 'translate(0,0)'
+					},
+					enter(el,done){
+						el.offsetWidth
+						el.style.transform = 'translate(150px,450px)'
+						el.style.transition = 'all 1s ease'
+						done()
+					},
+					afterEnter(el){
+						this.flag = !this.flag
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

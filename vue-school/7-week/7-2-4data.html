@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mycom></mycom>
+		</div>
+		<template id="tmp1">
+			<div>
+				{{msg}}
+			</div>
+		</template>
+		<script>
+			/*
+			*1：组件可以有自己的data数据
+			*2：组件中的data和实例的data有点不同
+			* 实例中的data可以为一个对象
+			* 但是组件中大data必须是一个方法
+			* 3：组件中的data除了必须有一个方法之外
+			* 这个方法内部，还必须返回一个对象才行
+			:4：组件中的data数据，使用方式和实例化中的data使用方法完全一样
+			* 
+			*/ 
+			Vue.component('mycom',{
+				data(){
+					return {
+						msg:'111'
+					}
+				},
+				//template:"<div>{{msg}}</div>"
+				template:"#tmp1"
+			})
+			new Vue({
+				el:'#app',
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

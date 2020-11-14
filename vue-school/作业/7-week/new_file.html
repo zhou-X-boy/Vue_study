@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<link href="../../animate.min.css" />
+		<style>
+			.yuan{
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				background-color: green;
+			}
+			.menu1{position: absolute; bottom: 0;right: 0;}
+			.menu2{position: absolute; bottom: 200px;right: 0;}
+			.menu3{position: absolute; bottom: 150px;right: 150px;}
+			.menu4{position: absolute; bottom: 0;right: 300px;}
+			.v-enter,.v-leave-to{
+				opacity: 0;
+				transform: translate(50px,50px);
+			}
+			.v-enter-active,.v-leave-active{
+				transition: all 0.6s ease;
+			}
+			.b-enter,.b-leave-to{
+				opacity: 0;
+				transform: translate(50px,50px);
+			}
+			.b-enter-active,.b-leave-active{
+				transition: all 0.8 ease;
+				transition-delay: 1s;
+			}
+			.c-enter,.c-leave-to{
+				opacity: 0;
+				transform: translate(50px,50px);
+			}
+			.c-enter-active,.c-leave-active{
+				transition: all 0.5s ease;
+				transition-delay: 2s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="yuan menu1" @click="flag = !flag"></div>
+			<transition name="a">
+				<div v-if="flag" class = "yuan menu3"></div>
+			</transition>
+			<transition name="c">
+				<div v-if="flag" class = "yuan menu4"></div>
+			</transition>
+			<transition name="b">
+				<div v-if="flag" class = "yuan menu2"></div>
+			</transition>
+			
+		</div>
+		<script>
+			new Vue({
+				el: "#app",
+				data: {
+					flag:false
+				},
+				methods: {
+					
+				}
+			})
+		</script>
+	</body>
+</html>

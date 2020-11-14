@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		</head>
+	</head>
+	<body>
+		<div id="app">
+			<mycom></mycom>
+			<login></login>
+		</div>
+		<template id="tmp1">
+			<div>
+				<h2>全局模块</h2>
+				<ul>
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+				</ul>
+			</div>
+		</template>
+		<template id="login">
+			<div>
+				<h2>私有模块</h2>
+			</div>
+		</template>
+		<script>
+			Vue.component("mycom",{
+				template:"#tmp1"
+			})
+			new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				//局部私有组件
+				//组件名:{template}
+				components: {
+					login:{
+						template: "#login"
+							
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
+

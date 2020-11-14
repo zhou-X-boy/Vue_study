@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			.wh{
+				width: 100px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<!-- 使用 .stop阻止冒泡 -->
+			<button class="wh" @click="show2()">
+				<input type="button" value="@click" @click="show()" />
+				<input type="button" value="@click.stop" @click.stop="show()" />
+		    </button>
+			
+		    <!-- 使用 .prevent 阻止默认事件 -->
+			<a href="http://www.baidu.com" @click.prevent="show()">百度</a>
+			<!-- 在上面加入了 .prevent后就不会跳转到百度 -->
+			<!-- prevent在大部分时间会用于表单的使用，用于阻止重载页面的事件发生 -->
+			<form @submit.prevent="onSubmit()"></form>
+			<!-- 表单本身不响应，只要写修饰符就可以了 -->
+			<form @submit.prevent></form>
+			
+			<!-- 多个修饰符混合使用，也叫修饰符串联 -->
+			<form @click.stop.prevent="onSubmit()"></form>
+			<a @click.stop.prevent="show()"></a>
+			
+			<!-- 使用 .capture实现捕获触发事件的机制 -->
+			<input type="button" value="" @click.capture="show()"/>
+			
+			<!-- 使用 .self 实现捕获触发事件的机制 -->
+			<div class="wh" @click.self="show2()">
+				<input type="button" value="" @click.self="show()" />
+			</div>
+			<!-- 结果：按钮会响应，div当中不会响应 -->
+			
+			<!-- 演示： .stop和.self的区别 -->
+			<div class="outer" @click="show()">
+				<div class="inner" @click="show2()">
+					<input type="button" value="" @click.stop="show3()"/>
+				</div>
+			</div>
+			<!-- 结果：只显示show3 -->
+			
+			<!-- .self只会阻止自己身上冒泡行为的触发，并不会真正阻止冒泡的行为 -->
+			<div @click="show()">
+				<div @click.self="show2()">
+					<input type="button" value="" @click="show3" />
+				</div>
+			</div>
+			<!-- 结果：会显示show，show3 -->
+		</div>
+		<script>
+			/*
+			v-on修饰符
+			1.种类
+			+ .stop       阻止冒泡			+ .prevent    阻止默认事件			+ .capture    添加事件侦听器时使用事件捕获模式			+ .self       只当事件在该元素本身（比如不是子元素）触发时触发回调			+ .once       事件只触发一次	        + .left       鼠标左键事件
+			+ .right      鼠标右键事件
+			+ .middle     鼠标中间滚轮事件
+			*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					
+				},
+				methods:{
+					show:function(){
+						alert("A");
+					},
+					show2:function(){
+						console.log("点里面")
+					},
+					show3:function(){
+						console.log(B)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

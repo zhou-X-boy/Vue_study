@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			/* 2：在这里写上马上进入的结点与离开的结点 */
+			.v-enter,.v-leave-to{
+				opacity: 0;
+				transfrom: translateX(300px)
+			}
+			/* 3：v-enter-active与 v-leave-active是描述中间的过程 */
+			.v-enter-active,.v-leave-active{
+				transition: all 0.8s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="button" value="点击" @click="flage =! flage" />
+			<!-- 1：使用transtition将需要显示动画的效果区域包裹起来 -->
+			<transition>
+				<h2 v-show="flage">效果</h2>
+			</transition>
+		</div>
+		<script>
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					flage: false
+				},
+				methods: {
+					
+				}
+			})
+		</script>
+	</body>
+</html>

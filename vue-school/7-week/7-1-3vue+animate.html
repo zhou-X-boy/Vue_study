@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<link rel="stylesheet" href="../animate.min.css" />
+	</head>
+	<body>
+		<div id="app">
+			<input value="点击" type="button" name='click' @click="flag = !flag" />
+			<!-- 
+			1：animate.css几个状态
+			 enter-class
+			 enter-active-class
+			 enter-to-class(2.1.8+)
+			 leave-class
+			 leave-active-class
+			 leave-to-class(2.1.8+)
+			2：使用 :duration="{enter:200,leave:400}"
+				分别设置 入场时长 和 离场时长
+			3：class设置animated
+			 -->
+			 <transition 
+			 enter-active-class="bounceIn" 
+			 leave-active-class="bounceOut"
+			 :duration="{enter:200,leave:400}">
+				 <h2 v-if="flag" class="animated">效果</h2>
+			 </transition>
+		</div>
+		<script>
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					flag: false
+				}
+			})
+		</script>
+	</body>
+</html>

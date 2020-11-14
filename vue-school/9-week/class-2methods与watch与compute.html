@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="/Vue_study/node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type='text' value='firstname' v-model='firstname'>
+        <input type='text' value='lastname' v-model='lastname'>
+        <input type='text' v-model='name'>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    firstname: '',
+                    lastname: '',
+                    name: ''
+                }
+            },
+            methods: {
+
+            },
+            watch: {
+                firstname: function(newVal, oldVal) {
+                    this.name = newVal + '-' + this.lastname;
+                    console.log('新的值' + newVal);
+                    console.log('旧的值' + oldVal);
+                },
+                lastname: function(nVal, oVal) {
+                    this.name = this.firstname + '-' + nVal
+                    console.log('新的值' + nVal);
+                    console.log('旧的值' + oVal);
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

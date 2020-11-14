@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mycom></mycom>
+			<mycom></mycom>
+		</div>
+		<template id="tmpl">
+			<div>
+				<input type="button" v-model="count"  @click="add" />
+				
+			</div>
+		</template>
+		<script>
+			//组件中方法的使用
+			//使用方法与正常的Vue实例相同
+			//注意data当中值的范围
+			//组件外面的数据的范围为当前全页
+			//组件内部的数据仅作用于组件
+			//当同样使用methods修改数据时，组件外面被修改的数据会在所有使用该数据的组件被渲染
+			//、组件内部的被修改的数据，只在对应组件中有效
+			var obj = {
+				count: 0
+			}
+			Vue.component('mycom',{
+				data(){
+					return {
+						count:0
+					}
+				},
+				//template:"<div>{{msg}}</div>"
+				template:"#tmpl",
+				methods:{
+					add(){
+						this.count ++
+					}
+				}
+			})
+			new Vue({
+				el:'#app',
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

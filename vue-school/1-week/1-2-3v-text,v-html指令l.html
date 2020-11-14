@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			b{
+				font-size: 24px;
+				color: aqua;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<p>请输入：{{txt1}}</p><!-- 输出结果：请输入：+txt1 -->
+			<p v-text="txt2">请输入：</p><!-- 输出结果：txt2 -->
+			<p v-html="txt3"></p>
+		</div>
+		<script>
+			// 1:对比{{}}与v-text,v-html指令之间的区别,
+			//   相同之处:都是输出一段文本,
+			//   不同之处:插值法只是替换插值部分,相当于把插值插入相对的位置;
+			//            v-text,v-html指令是把标签中的所有内容全部替换,相当于jquery中的用法.
+			// 2:对比v-text与v-html之间的区别,
+			//   相同之处:把标签中的内容全部替换,
+			//   不同之处:v-text会把标签也当做文本来处理,v-html会把标签转化为dom元素
+			var vm=new Vue({
+				el:'#content',
+				data:{
+					txt1:'<b>欢迎来到江西工贸</b>',
+					txt2:'<b>欢迎来到信息工程系</b>',
+					txt3:'<b>欢迎来到软件技术</b>'
+				}
+			})
+		</script>
+	</body>
+</html>

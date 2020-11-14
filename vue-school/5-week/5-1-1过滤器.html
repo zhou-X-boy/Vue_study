@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			.qvq{
+				box-shadow: 0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);
+				width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="qvq">
+				<h3>1:基本用法</h3>
+				<p :title="msg|addmsg">{{msg|addmsg}}</p>
+				<p :title="msg2|replacemsg">{{msg2|replacemsg}}</p>
+		    </div>
+			<div class="qvq">
+				<h3>2:使用value代替前面的data数据</h3>
+				<P>{{datem|dateplace}}</P>
+			</div>
+			<div class="qvq">
+				<h3>3:回调函数中多变量的情况</h3>
+				<p>{{msg|moredata(msg,'b','c')}}</p><!-- 这里只会显示b -->
+				<p>{{msg|moredata('b','c')}}</p><!-- 这里只会显示b和c -->
+		    </div>
+			<div class="qvq">
+				<h3>4:多过滤器的使用</h3>
+				<p>{{msg3|replacemsg|morereplace}}</p>
+				<p>{{msg3|morereplace|replacemsg}}</p>
+			</div>
+			<div class="qvq">
+				<h3>5:过滤器与数组对象</h3>
+				<p v-for="obj in list">{{obj.id|dateplace|addnum(obj.institute)}}</p>
+			</div>
+			<div class="qvq">
+				<ul>
+					<li v-for="item in newslist">{{item.news|toslice}}</li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			/*
+			filter(过滤器)2.0后没有内置过滤器。1.0中内置过滤器，filters
+			1:基本用法
+				本质是函数，目的是改变渲染
+				第一步：Vue.filter('过滤器名字',function(参数1为|前面的数据){})
+				第二步：{{msg|addmsg}}
+				:title="msg|addmsg"
+			2:使用value代替前面的data数据
+				在过滤器当中回调函数的值从前面的内容过来的
+			3:回调函数中多变量的情况
+				1)在过滤器当中function(参数1，参数2，参数3)，其中参数1为|前面的字符
+				2)在调用时不用放入参数1，直接{{data|方法名(参数2，参数3)}}
+			4:多过滤器的使用
+				多过滤器是有顺序的，先运行离数据近的，在运行离数据远的
+				第二个过滤器是在第一个过滤器的基础上渲染的，而不是根据原数据渲染
+			5:过滤器和数组对象
+			*/ 
+		   
+		    //1:基本用法
+			Vue.filter('addmsg',function(msg){
+				return msg+'a'//添加
+			});
+			Vue.filter('replacemsg',function(msg2){
+				return msg2.replace(/mm/g,"**")//置换
+			});
+			
+			//2:使用value代替前面的data数据
+			var date=new Date();
+			var m=date.getMonth()+1;
+			var d=date.getDate();
+			Vue.filter('dateplace',function(value){
+				// if(value<10){
+				// 	return "0" + value
+				// }else{
+				// 	return value
+				// }
+				return value < 10 ? "0" + value :value
+			});
+			
+			//3:回调函数中多变量的情况
+			Vue.filter('moredata',function(msg,ms1,ms2){
+				return msg+ms1+ms2
+			});
+			
+			//4:多过滤器的使用
+			Vue.filter('morereplace',function(msg3){
+				return msg3.replace(/qnm/g,"***")
+			});
+			
+			//5:过滤器和数组对象
+			Vue.filter('addnum',function(value,inst){
+				if(inst == "a"){
+					return "2020"+"1"+value
+				}else{
+					return "2020"+"2"+value
+				}
+			});
+			
+			//6
+			Vue.filter('toslice',function(value){
+				var len=value.length;
+				if(len>=8){
+					return value.slice(0,6)+"..."
+				}else{
+					return value
+				}
+				
+			});
+			var vm=new Vue({
+				el:"#app",
+				data:{
+					msg:"需要过滤的字符串",
+					msg2:"mmp",
+					datem:m,
+					value:d,
+					msg3:"nmmhzm,qnmm",
+					list:[
+						{id:1,name:'张三',sex:0,institute:'a'},
+						{id:2,name:'李四',sex:1,institute:'b'},
+						{id:3,name:'王五',sex:1,institute:'c'},
+						{id:4,name:'赵六',sex:1,institute:'d'}
+					],
+					newslist:[
+						{id:1,news:"abcdefg"},
+						{id:2,news:"abcdefghijklmn"},
+						{id:3,news:"abcdefghijklmnopqrst"}
+					]
+					
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

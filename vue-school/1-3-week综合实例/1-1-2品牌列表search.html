@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<link href="../bootstrap-3.3.7.css" rel="stylesheet">
+		<style>
+			&{
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="panel panel-primary">
+				<div class="panel panel-heading">品牌列表</div>
+				<div class="panel panel-body">
+					<label>
+						编号：
+						<input type="text"  class="from-control" v-model="id"/>
+					</label>
+					<label>
+						名字：
+						<input type="text"  class="from-control" v-model="name"/>
+					</label>
+					<input type="button" class="btn btn-primary" value="添加" @click="add" />
+					<label>
+						搜索名称关键字：
+						<input type="text"  class="from-control" v-model="keywords"/>
+					</label>
+					<input type="button" value="搜索" class="btn btn-primary" @click="search(keywords)" />
+				</div>
+				<table class="table table-bordered table-hover table-striped">
+					<thead>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>时间</th>
+					</thead>
+					<tbody>
+						<tr v-for="(proobj,index) in search(keywords)" :key="proobj.id">
+							<td>{{proobj.id}}</td>
+							<td v-text="proobj.name"></td>
+							<td>{{proobj.ctime}}</td>
+							<td><a href="" @click.prevent="del(proobj.id)" :key="proobj.id">删除</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var ndata=new Date();
+			var vm=new Vue({
+				el:"#app",
+				data:{
+					id:"",
+					name:"",
+					keywords:"",
+					list:[
+						{id:1,name:'格力',ctime:ndata},
+						{id:2,name:'海尔',ctime:ndata},
+						{id:3,name:'美的',ctime:ndata},
+						{id:4,name:'奥斯克',ctime:ndata}
+					]
+				},
+				methods:{
+					add:function(){
+						/*
+						1:获取id和name，data直接获得
+						2:需要一个对象
+						3:将这个对象添加到list这个数组.push()向后添加,unshift()向前添加
+						*/ 
+					   let i={
+						   id:this.id,
+						   name:this.name,
+						   ctime:ndata
+						}
+						this.list.push(i);
+						//添加完后，表单中的东西要清空
+						this.id=this.name='';
+					},
+					del:function(id){
+						/*
+						view
+						1:指定删除对象
+						2:锁定对象 :key=""
+						js
+						1:根据现有的id，找到对应的那一条，也就是找到要删除的这一项的索引
+						2:找到索引，调用数组的splice方法删除
+						splice()方法的用法
+						splice(索引,几项,向数组添加新项目)
+						some()的使用
+						some((对象,index)=>{})
+						findIndex:返回节点(索引)的位置
+						findIndex(item=>{})
+						*/ 
+					   //搜索+删除 方法一
+					   /*this.list.some((item,i)=>{
+						   if(item.id==id){
+							   this.list.splice(i,1)
+							   return true
+						   }
+					   })*/
+					   
+					   //搜索+删除 方法二
+					   var index=this.list.findIndex((item)=>{
+						   if(item.id==id)
+						   return true
+					   })
+					   this.list.splice(index,1)
+					},
+					search(keywords){
+						/*
+						view
+						1:搜索的关键词search方法
+						2:for循环
+						js
+						1:遍历数组
+						   1):forEach找到的每一项(遍访数组)
+						2:匹配是否包含前端传递过来的参数
+						   1)indexOf(关键词)!=-1 包含
+						   2)includes(关键词)*/ 
+					   var newProlist=[]
+					   //indexOf是指第一次出现多
+					   this.list.forEach((item)=>{
+						   /*if(item.name.includes(keywords)){
+							    newProlist.push(item)
+						   }*/
+						   if(item.name.indexOf(keywords)!=-1){
+							   newProlist.push(item)
+						   }
+					   })
+					   return newProlist;
+					   
+					   /*return this.list.filter((item)=>{
+						   if(item.name.includes(keywords)){
+							   return item;
+						   }
+					   })*/
+					}
+				}
+			})
+			/*forEach filter some findIndex
+			1:filter,
+			原来用来返回创建新的数组
+			但因为他具有遍历数组及index索引,所以可以遍历数组,可以的得到index,
+			优点不会对空数组查找，可以提高速度
+			filter((item,index,arr[])=>{})
+			2:forEach:
+			是用于调用数组里的每一个元素
+			forEach((item,index,arr[])=>{})
+			3:filter与forEach与map在使用时的区别
+			mao与forEach用于遍历数组，回调函数的返回值成一个新数组，新老数组结构一致
+			filter返回原数组的一个子集，他的回调的过程就像一个逻辑判断，
+			返回true的元素添加到返回数组中，原数组是不会变得
+			*/
+		</script>
+	</body>
+</html>

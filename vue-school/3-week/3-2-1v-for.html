@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			.wh{
+				width: 300px;
+				height: 200px;
+				background-color: aliceblue;
+			}
+			.imgwh{
+				width: 50px;
+				height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<p>{{newstitle}}</p>
+			<div class="wh">
+				<p>1)迭代数组的使用</p>
+				<p v-for="(item,index) in newsauthor">系部{{index}}:{{item}}</p>
+			</div>
+			<div class="wh">
+				<p>2)迭代对象的使用</p>
+				<p v-for="(val,key,i) in newsinfor">key是{{key}},value是{{val}}</p>
+			</div>
+			<div class="wh">
+				<p>3)迭代数组对象</p>
+				<p v-for="(obj,i) in news"><img class="imgwh" :src="obj.img">索引:{{i}},id:{{obj.id}},name:{{obj.name}}</p>
+			</div>
+			<div class="wh">
+				<p>4)迭代数字</p>
+				<p v-for="(num,i) in 5">索引:{{i}},值:{{num}}</p>
+			</div>
+		</div>
+		<script>
+			/*
+			v-for的使用
+			1:基本作用：在view端迭代(可以理解为循环生成数据)生成数据
+			2:基本用法
+			1)迭代数组
+			v-for="(对象,索引) in data数据"
+			直接使用插值法调用{{对象}}{{索引}}
+			[索引从0开始]如果要要从1开始可以直接{{索引+1}}
+			
+			2)迭代对象
+			v-for="(val,key,索引)" in data数据  [前值后key]
+			
+			3)迭代数值对象
+			v-for="(object,索引) in data数据"
+			[调用onject.data数据里的key]
+			[重点v-for于v-bind的混搭] :src=object.img或 :src="object.img"
+			
+			4)迭代数字
+			迭代数字是用来跌代整数的
+			v-for="(数字,索引) in 数字" 跌代数字从1开始：in后面的数字，就是结束的数字
+			*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					newstitle:"江西工贸",
+					newsauthor:['信息','经贸','建艺'],
+					newsinfor:{
+						id:1,
+						name:'ABC',
+						intr:'DEF'
+					},
+					news:[
+						{id:1,name:'a',img:'img/zhou.jpg'},
+						{id:2,name:'b',img:'img/2.jpg'},
+						{id:3,name:'c',img:'img/3.jpg'}
+					]
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

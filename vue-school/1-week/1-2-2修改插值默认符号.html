@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>修改插值默认符好</title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{data1}}
+			<%data2%>
+		</div>
+		<script>
+			var vm=new Vue({
+				el:'#content',
+				data:{
+					data1:'HH',
+					data2:'KK'
+				},
+				delimiters:['<%','%>']//['前面的符号','后面的符号']将默认的{{}}修改为<% %>
+			})
+		</script>
+	</body>
+</html>

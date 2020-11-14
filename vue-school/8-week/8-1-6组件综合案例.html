@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mycom @func='loadCom'></mycom>
+			<div v-for="(item,index) in list">
+				<span>评论人：{{item.user}}</span>
+				<span>评论：{{item.content}}</span>
+			</div>
+		</div>
+		<template id="tmp1">
+			<div>
+				<div>
+					<label>评论人<input type="text" v-model="user"></label>
+				</div>
+				<div>
+					<label>留言<input type="text" v-model="content"></label>
+				</div>
+				<input type="button" value="点击" @click="postcom" />
+			</div>
+		</template>
+		<script>
+			var mycom = {
+				data() {
+					return {
+						user: "",
+						content: ""
+					}
+				},
+				methods: {
+					postcom() {
+						var comment={
+							user:this.user,
+							content:this.content,
+						}
+						//获取windows当中自带的评论
+						var list = JSON.parse(localStorage.getItem("cmts") || '[]')
+						list.unshift(comment);
+						//重新保存最新的 评论数据
+						localStorage.setItem('cmts',JSON.stringify(list))
+						//清除发表评论的文本框
+						this.user = this.content = ''
+						this.$emit("func")
+					}
+				},
+				template: "#tmp1",
+				props: []
+			}
+			new  Vue({
+				el:'#app',
+				data: {
+					list: [
+						{user:"a",content:'123'}
+					]
+				},
+				created() {
+					this.loadCom();
+				},
+				methods: {
+					loadCom(){
+						var list = JSON.parse(localStorage.getItem('cmts'));
+						this.list = list
+					}
+				},
+				components: {
+					mycom
+				}
+			})
+		</script>
+	</body>
+</html>

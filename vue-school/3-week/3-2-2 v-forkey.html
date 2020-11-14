@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<label>name:</label><input type="text" v-model="username" />
+			<label>age:</label><input type="text" v-model="userage" />
+			<input type="button" value="add" @click="add" />
+			
+			<div v-for="(obj,i) in user" :key="obj.name">
+				<p><input type="checkbox">{{i}}--{{obj.name}}--{{obj.age}}</p>
+			</div>
+		</div>
+		<script>
+			/*
+			1)在对对象数组操作时，在后面加上key，防止出错v-for="(obj,i) in user" :key="obj.name"
+			2)直接调用methodes中的数据
+			v-for="(item,index) in search(参数)",在methods中写search(参数)这个方法
+			*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					username:'',
+					userage:'',
+					user:[
+						{name:'aA',age:19},
+					    {name:'bB',age:20},
+					]
+				},
+				methods:{
+					add:function(){
+						let u={
+							name:this.username,
+							age:this.userage
+						}
+						this.user.push(u)
+						//this.user.unshift(u)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

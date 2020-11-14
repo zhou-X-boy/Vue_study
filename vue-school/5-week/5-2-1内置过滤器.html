@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{datem|dateplace}}
+			{{msg|moreplace}}
+		</div>
+		<script>
+			var date=new Date();
+			var m=date.getMonth()+1;
+			// Vue.filter('dateplace',function(value){
+			// 	return value < 10 ? "0" + value :value
+			// })
+			var vm=-new Vue({
+				el:"#content",
+				data:{
+					datem:m,
+					msg:'nmd，tmd，ntmd'
+					
+				},
+				beforeCreate:function(){
+					that=this;
+				},
+				methods:{
+					
+				},
+				/*
+				内置过滤器的使用
+				1：基本结构
+					filters:{
+					filters1:function(){};
+					filters2:function(){}
+				}
+				2：注意事项
+					1)内置过滤器filters比外置过滤器优先级更高
+					2)[关于内置过滤器调用data数据的问题]
+					这里data数据涉及到的是数据指向性问题，使用箭头函数()=>
+					在filters当中，使用的是钩子函数，可以使用生命周期函数
+					解决方案：使用生命周期函数解决
+					beforceCreate:function(){
+						that=this
+					}
+					调用数据修改为that.data
+					正则表达式
+					/hh/g
+					var re
+					eval("/"+re+"/g")
+				*/ 
+				filters:{
+					dateplace:function(value){
+						return value < 10 ? '00'+value : value
+					},
+					moreplace:function(value){
+						var re = 'nm'
+						var res = eval("/"+ re +"/g")
+						return value.replace(res,"***")
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

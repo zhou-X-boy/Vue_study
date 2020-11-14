@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../vue-2.4.0.js"></script>
+  <style>
+    .cimg {
+      position: absolute;
+      right: 100px;
+      bottom: 0px;
+    }
+
+    .img0-enter,
+    .img0-leave-to {
+      opacity: 0;
+      transform: translate(150px, 150px)
+    }
+
+    .img1-enter,
+    .img1-leave-to {
+      opacity: 0;
+      transform: translate(200px, 25px)
+    }
+
+    .img2-enter,
+    .img2-leave-to {
+      opacity: 0;
+      transform: translate(-20px, 200px)
+    }
+
+    .img0-enter-active,
+    .img0-leave-active {
+      transition: all 2s ease;
+    }
+
+    .img1-enter-active,
+    .img1-leave-active {
+      transition: all 3s ease;
+    }
+
+    .img2-enter-active,
+    .img2-leave-active {
+      transition: all 1s ease;
+    }
+
+    .cimg-main {
+      z-index: 99;
+      width: 100px;
+      height: 100px;
+    }
+
+    img {
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 60px;
+      height: 60px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="cimg">
+      <img :src="mainImg" class="cimg-main" @click="flag=!flag" />
+      <transition v-for="(value,index) in imgList" :name="imgName(index)">
+        <div :class="cImg(index)" v-show="flag" v-df="{top:value.top,left:value.left}">
+          <img :src="value.url" />
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <script>
+    //创建Vue实例,得到 ViewModel
+    Vue.directive('df', {
+      bind(el, binding) {
+        el.style.position = 'absolute'
+        el.style.top = binding.value.top + 'px'
+        el.style.left = binding.value.left + 'px'
+      }
+    })
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        flag: false,
+        mainImg: "img/05-1.jpg",
+        imgList: [
+          {
+            url: "img/05-2.jpg",
+            top: -150,
+            left: -150
+          },
+          {
+            url: "img/05-3.jpg",
+            top: -25,
+            left: -200
+          },
+          {
+            url: "img/05-4.jpg",
+            top: -200,
+            left: 20
+          }
+        ]
+      },
+      methods: {
+        showT() {
+          console.log("111")
+        },
+        imgName(index) {
+          return 'img' + index
+        },
+        cImg(index) {
+          return 'c-img' + index
+        },
+        fsInX(top, left) {
+          top = top * -1 + 'px'
+          left = left * -1 + 'px'
+          let x = 'opacity: 0;top:' + top + ';left:' + left
+          console.log(x);
+          return x;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

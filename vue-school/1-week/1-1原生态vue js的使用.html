@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>原生态vue js的使用</title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<p>{{H}}</p>
+			<p>{{V}}</p>
+		</div>
+		<script>
+			/*
+		    步骤一：导入vue架包
+			步骤二：创建vue实例，新建构造函数
+			        我们new出来的这个vm对象，就是我们MVVM中的VM调度者
+			步骤三：用el指定控制区域
+			步骤四：用data传入数据
+			*/
+			var vm=new Vue({
+				//el的使用就是指定要操作的前端界面，也就是要操作的Vue实例
+				el:'#content',
+				//这里的data就是MNNM中的M，专门用来存储每隔页面的数据的
+				//data属性中，存放的是el中药用的数据
+				data:{
+					H:'Hello',
+					V:'VUE',
+				},
+				//通过Vue提供的指令，很方便就能把数据渲染到页面上，程序员不再手动操作DOM元素
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			*{
+				margin: 0;
+				top: 0;
+			}
+			.fontred{
+				color: red;
+			}
+			.font16{
+				font-size: 16;
+			}
+			.fleft{
+				float: left;
+			}
+			.fright{
+				float: right;
+			}
+			.imgwh{
+				width: 200px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<p v-bind:title="newstitle">{{newstitle}}</p>
+			<p :title="newstitle">{{newstitle}}</p>
+			<p v-bind:title="webkeyword+'昨天'">{{webkeyword}}</p>
+			<p v-bind:title="webkeyword+webkeyword2">{{webkeyword}}</p>
+			<p :class="[classred,class16]">今天明天昨天</p>
+			<p>
+				<img title="123" class="imgwh fright">
+				<img :src="newsimg" :class="{fleft:isT,imgwh:isT}"><!-- 属性值.isT -->
+				<p :class="[class16,classred,{fleft:isT,fontred:isF}]">{{newstitle}}</p>
+				<p :class="{fleft:isT,font16:isF}">{{newstitle}}</p>
+				<img v-bind="{title:newstitle,src:newsimg,class:['imgwh','fontleft']}"/>
+				
+				<p :class="classall">abc</p>
+				<p :class="[isT?classred:class16]">abc</p>
+			</p>
+		</div>
+		<script>
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					newstitle:"今天",
+					webkeyword:"明天",
+					webkeyword2:"昨天",
+					
+					classred:"fontred",
+					class16:"font16",
+					
+					newsimg:"img/zhou.jpg",
+					fontleft:"fleft",
+					fontright:"fright",
+					imgwh:"imgwh",
+					
+					isT:true,
+					isF:false,
+					
+					classall:{'fontred':true,'font16':true}
+				}
+			})
+		/*  bind的使用
+			1)v-bind:属性=:"data当中的值",
+			2)v-bind缩写 :属性="data当中的值"
+			语法方法
+			1)[单一的属性使用] v-bind:属性="data1"或 :属性="data1",
+			2)[属性+字符串]    v-bind:属性="data1+字符串",
+			3)[多属性值调用]   v-bind:属性="data1+data2+..."
+			4)[多属性值得使用] v-bind:属性="[data1+data2]",
+			*3)和4)之间的区别:使用时,原始数据只有一个值时,两种方法都可以;原始数据有两个或两个以上的值调用时,采用4
+			5)[多属性值+判断]对于同一个属性需要调用多个data数据,但是这个属性会发生变化,也就是要进行判断 v-bind="[data1,...{属性值:判断,...}]"
+			6)[多属性名的调用]可以同时设置多个属性值v-bind="{属性1:data1,属性2:"字符串"...}"
+			   注意事项
+			   A:在逃跑用多属性值时加引导号时,是字符串,不加引导号时data当中的数据,
+			   B:属性名不用大小写
+			   C:可以把多属性值调用与当前的内容组合使用 class:["",""]
+			升级用法
+			1）可以对对象操作
+			  在data当中 对象名：{'对象的内容':判断,'对象的内容':判断}
+			  在使用 :属性名="对象内容1 对象值内容2 ..."
+			2)三元运算 [判断值?属性值1:属性值2]
+		*/
+		</script>
+	</body>
+</html>

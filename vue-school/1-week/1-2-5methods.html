@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>methods</title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<input type="button" value="点一下" @click="show()" />
+		</div>
+		<input type="button" value="点一下" onclick="vm.show()" />
+		<script>
+			// methods方法的使用
+			// 1:建立方法,
+			// methods{
+			//   方法名1:function(参数1,参数2){},
+			//   方法名2:function(参数1,参数2){}
+			// }
+			// 2:调用方法,
+			//   点击调用在标签中加入<@click='方法名1（参数1，参数2）'>[在vue域当中，也就是#content当中调用methods方法]
+			//   直接在script当中调用vm.方法名1(参数1,参数2)
+			// 如果不在vue域当中调用方法 用onclick="vm.show()"[一定要指定操作的实例]
+			// 调用data中的数据方法,要通过this.属性名来调用data中的数据
+			var vm=new Vue({
+				//操作的对象
+				el:'#content',
+				//数据
+				data:{
+					user:'Z',
+					age:1
+				},
+				//方法
+				methods:{
+					show:function(){
+						alert('日照香炉生紫烟');
+						alert(this.user+this.age);
+					},
+					show2:function(){
+						alert('遥看瀑布挂前川');
+					}
+				}
+			})
+			vm.show2();
+		</script>
+	</body>
+</html>

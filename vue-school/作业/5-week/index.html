@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<p>{{msg|more}}</p>
+		</div>
+		<script>
+			Vue.filter("more",function(msg){
+				if(msg.length>3){
+					return msg.slice(0,3)+"..."
+				}else{
+					return msg
+				}
+			})
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					msg:"abcdefghijk"
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

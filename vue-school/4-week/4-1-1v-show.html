@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<div class="wh">
+				1）[直接使用true和false]来表现元素的显示隐藏
+				<p v-show="true">true</p>
+				<p v-show="false">false</p>
+			</div>
+			
+			<div class="wh">
+				2)[通过设置data，中true和false]来表现显示隐藏
+				<p v-show="isT">true</p>
+				<p v-show="isF">false</p>
+			</div>
+			
+			<div class="wh">
+				3)[通过判断是否匹配]
+				<p v-show="typ==='a'">true</p>
+			</div>
+			
+			<div class="wh">
+				4)[flag=!flag]
+				<input type="checkbox" value="点击显示隐藏图层" @click="toggle" /> 
+				<p v-show="ok">点击显示隐藏图层</p>
+			</div>
+			
+			<div class="wh">
+				5)使用v-if显示隐藏效果
+				<input type="checkbox" value="点击显示隐藏图层" @click="toggle" /> 
+				<p v-if="ok">点击显示隐藏图层</p>
+			</div>
+		</div>
+		<script>
+			/*
+			v-show
+			1.v-show的作用，用于显示隐藏
+			2.v-show的基本作用
+				1）[直接使用true和false]来表现元素的显示隐藏
+				2)[通过设置data，中true和false]来表现显示隐藏
+				3)[通过判断是否匹配]
+				4)[flag=!flag]一般用于表单中，就是第一次点击teue，第二次点击false
+			3。v-show和v-if的区别
+			1)先判断后渲染，所以v-if的渲染性能比较强，在运行时性能会相对较弱
+			2)v-show先渲染，然后把匹配为false的设置为style='display:none'
+			从本质来说v-show就是我们jquery中hide和show方法*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					isT:true,
+					isF:false,
+					typ:'a',
+					ok:true
+				},
+				methods:{
+					toggle:function(){
+						this.ok=!this.ok
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

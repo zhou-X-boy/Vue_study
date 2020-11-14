@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<input type="button" value="按下enter出效果" @keyup.enter="add" />
+			<input type="button" value="按下a出效果" @keyup.a="add1" />
+			<input type="button" value="按下ctrl+a出效果" @keyup.ctrl.a="add2" />
+		</div>
+		<script>
+			/*
+			 * 按键修饰符
+			 * 1：基本结构
+			 *  1)keyup,keydown,keyeress
+			 * 	@keyup.修饰符
+			 * 	@keyup.键码值
+			 * 2：默认按键修饰符
+			 * 	.enter  .tab  .delete  .esc  .space(空格)  
+			 *  .up   .down  .left  .right
+			 * 3：自定义按键修饰符
+			 *  自定义修饰符Vue.config.keyCodes.按键=键码值
+			 * 4：系统辅助按键
+			 *  .ctrl  .alt  .shift .meta
+			 *  1）直接调用@keyup.alt.65
+			 *  2）自定义a的调用Vue.config.keyCodes.a=65;，然后使用@keyup.alt.a="add2"
+			 * 5：[串联式命名的转化]@keyup.page-down="add"
+			*/
+		    Vue.config.keyCodes.a=65;
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					
+				},
+				methods:{
+					add:function(){
+						console.log('默认修饰符@keyup.enter="add"');
+					},
+					add1:function(){
+						console.log("自定义修饰符Vue.config.keyCodes.按键=键码值( @keyup.a='add1')")
+					},
+					add2:function(){
+						console.log("系统辅助按键@keyup.ctrl.a='add2'")
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

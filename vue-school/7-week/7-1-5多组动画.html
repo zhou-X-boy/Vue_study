@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<link href="../animate.min.css" />
+		<style>
+			li{
+				border: 1px solid blue;
+				width: 500px;
+				line-height: 50px;
+				
+			}
+			li:hover{
+				background-color: green;
+				transition: all 1s ease;
+			}
+			.v-enter,.v-leave-to{
+				opacity: 0;
+				transform: translateY(80px);
+			}
+			.v-enter-active,.v-leave-active{
+				transition: all 0.6s ease;
+			}
+			/* 下面的 .v-move 和  .v-leave-active配合使用，
+			能够实现列表后续的元素，渐渐地飘上来的效果*/
+			.v-move{
+				transition: all 0.6s ease;
+			}
+			.v-leave-active{
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<label>id：<input type="text" v-model="id"></label>
+			<label>name：<input type="text" v-model="name"></label>
+			<input type="button" value="添加" @click="add">
+			<!-- 在实现列表过渡的时候，如果需要过渡的元素，是通过v-for循环渲染出来的，
+			不能使用transition包裹，需要使用transitionGroup -->
+			<!-- 如果要为v-for循环创建的元素设置动画，
+			 必须为每一个元素设置 :key 属性-->
+			 <!-- 给transition-group 添加appear属性，
+			 实现页面刚展示出来的时候，入场时候的效果 -->
+			 <!-- 通过为 transition-group元素，设置tag属性，指定tranisiton-group渲染为指定元素，
+			  如果不指定tag属性，默认渲染为span标签-->
+			<transition-group appear tag="ul">
+				<li  v-for="(obj,index) in list" :key='obj.id' @click="del(index)">
+					<span>{{obj.id}}</span>
+					<span>{{obj.name}}</span>
+				</li>
+			</transition-group>
+		</div>
+		<script>
+			
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					id: '',
+					name: '',
+					active:'',
+					list: [
+						{
+							id: 1 ,
+							name: 'a'
+						},
+						{
+							id: 2 ,
+							name: 'b'
+						},
+						{
+							id: 3 ,
+							name: 'c'
+						},
+						{
+							id: 4 ,
+							name: 'd'
+						}
+					]
+				},
+				methods: {
+					add(){
+						this.list.push({id:this.id,name:this.name})
+						this.id=this.name=''
+					},
+					del(index){
+						this.list.splice(index,1)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

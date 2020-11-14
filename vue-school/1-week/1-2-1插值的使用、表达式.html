@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>插值的使用、表达式</title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{data1}}
+			<!-- <p>{{data2}}</p> -->
+			<!-- {{data3}} -->
+			{{data4}}
+			<!-- {{{data5}}} -->
+			<p>html</p>
+			{{data6/100}}
+			{{true?1:0}}
+			{{data7?1:0}}
+			{{data8?1:0}}
+			{{user|username}}
+		<script>
+			//通过插值法只能实现简单的文本操作
+			var flag=false
+			var vm=new Vue({
+				el:'#content',
+				
+				data:{
+					data1:'渲染多次的数据',
+					data2:'渲染多次的效果',
+					data3:'<p>html</p>',//仅在vue1中使用
+					// data4:username,
+					data5:'<p>3大括号</p>',//仅在vue1中有使用，作用是实现html,治理的p会当做html中的标签对
+					data6:100,
+					data7:true,
+					data8:flag
+				},
+			})
+			// 插值及表达式总结
+			// 1:{{data}}当中的数据可以多次渲染,数据如果是dom标签形式,此将作为文本输出
+			// 2:可以在数值当中使用表达式,但是仅仅为数值/运算符/变量,if表达式可以使用三元表达式代替,
+			// 3:插值是可以使用过滤{{data|data1}}
+		</script>
+	</body>
+</html>

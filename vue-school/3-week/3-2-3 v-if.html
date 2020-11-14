@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			.wh{
+				width: 300px;
+				height: 100px;
+				background-color: antiquewhite;
+				margin-top: 15px;
+			}
+			.imgwh{
+				width: 70px;
+				height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<p v-if="isT">这是true</p>
+			<p v-if="isF">这是false</p>
+			<div class="wh">
+				<p>2)v-if与表达式配合</p>
+				<p v-if="Math.random()<0.5">A</p>
+			</div>
+			<div class="wh">
+				<p>3)v-if与v-else配合使用</p>
+				<p v-else>a</p>
+			</div>
+			<div class="wh">
+				<p>4)与v-else-if</p>
+				<p v-if="type==='a'">a</p>
+				<p v-else-if="type==='b'">b</p>
+				<p v-else-if="type==='c'">c</p>
+				<p v-else>not a/b/c</p>
+			</div>
+			<div class="wh">
+				<div v-if="show">
+					<img class="imgwh" src="img/zhou.JPG" />
+				</div>
+				<input type="button" value="toggle" @click="toggle" />
+			</div>
+		</div>
+		<script>
+			/*
+			v-if的使用
+			1：配合布尔型，实现判断，会根据表达式的值来决定是否插入这条语句
+			[注意，这个可以配合模板<temmplate>的使用，来决定一个模块是否在页面中显示]
+			2:v-if可以直接使用样式
+			3：v-if和v-else配合使用
+			4：v-if与v-else-if
+			5：v-show*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					isT:true,
+					isF:false,
+					type:'b',
+					show:true
+				},
+				methods:{
+					toggle:function(){
+						this.show=! this.show
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.wh{
+				width: 500px;
+				height: 100px;
+				background-color: papayawhip;
+				margin: 20px;
+			}
+			.wh2{
+				width: 500px;
+				height: 100px;
+				background-color: papayawhip;
+				margin: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<div class="wh">
+				<p>v-model与v-bind的区别</p>
+				<P>{{news}}</P>
+				<p><span>使用v-bind的效果：</span><input type="text" :value="news"></p>
+				<p><span>使用v-model的效果：</span><input type="text" v-model="news"></p>
+			</div>
+			<div class="wh">
+				<p>v-model在下拉框的使用</p>
+				请选择
+				<select v-model="selectd">
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+				</select>
+				<label>您选择的为：{{selectd}}</label>
+			</div>
+			<div class="wh">
+				<p>v-model在单选框中使用</p>
+				<input type="radio" value="a" v-model="radio"/>
+				<label>a</label>
+				<input type="radio" value="b" v-model="radio"/>
+				<label>b</label>
+				<p><span>您选择的是:</span>{{radio}}</p>
+			</div>
+			<div class="wh">
+				<p>v-mode在多选框的使用</p>
+				<input type="checkbox" value="aa" v-model="checkedname" /><label>aa</label>
+				<input type="checkbox" value="bb" v-model="checkedname" /><label>bb</label>
+				<input type="checkbox" value="cc" v-model="checkedname" /><label>cc</label>
+			    <span>您选择的是：</span>{{checkedname}}
+			</div>
+			<div class="wh2">
+				<P>修饰符lazy的使用</P>
+				<input type="text" v-model.lazy="news" />
+			</div>
+			<div class="wh2">
+				<p>修饰符number的使用</p>
+				<input type="text" v-model.number="num" />
+				<p><span>当前的值：{{num}}---</span>数据类型为{{typeof(num)}}</p>
+			</div>
+			<div class="wh2">
+				<p>修饰符trim的使用</p>
+				<input type="text" v-model.trim="username">
+			</div>
+		</div>
+		<script>
+			/*v-model
+			1:基本使用
+			v-model用于进行双向数据绑定，一般用于表单元素上
+			使用了v-model的表单，数据会随表单元素内容修改而修改
+			
+			2:v-model与v-bind的区别
+			v-bind为单向，而v-model为双向
+			
+			3:v-model与下拉菜单的使用
+			在select当中绑定v-model，通过v-model可以返回选中的option当中的value的值
+			
+			4:v-model在单选框的使用
+			1)只要绑定的v-model是同一个data数据，那他们就是同一组单选
+			2）使用方法：在input当中设置v-model，拿到data的数据，被选中后v-model会放回input当中的value的值
+			
+			5:v-model在复选框中的使用
+			1)只要绑定的v-model是同一个data数据，那么他们是一组数据
+			2)使用方法与单选相同
+			3)与单选不同的是：绑定的数据一定是一个数组
+			
+			6:model修饰符
+			1)lazy修饰符用于直接放在v-model后面，预览时需要人为点击一下才有效果.
+			原理：在原生态js当中，v-model是使用的oninput事件，在加上lazy后，把他更改为onChange事件
+			2)number
+			[在输入的值当中第一个字母要为数字或.或-，那么number就没有作用]
+			[如果内容前面为数字，后面为字母，那么number会把后面的字符串删除]
+			[第一个字符。后面为数字，会自动的转化为0.]
+			[第一个字符为-后面为数字，会自动计算成负数]
+			3)trim
+			4)debounce(2.0一后移除)*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					news:"江西工业贸易职业技术学院",
+					selectd:"",
+					radio:"",
+					checkedname:[],
+					num:"",
+					username:""
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

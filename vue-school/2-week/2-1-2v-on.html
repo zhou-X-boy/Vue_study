@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			{{num}}
+			<input type="button" value="第一种v-on使用" v-on:click="num=num+1" />
+			<input type="button" value="第一种v-on使用" v-on:click="show()" />
+			<!-- <input type="button" value="同时调用多个方法的写法" v-on="{click:show(),mouseover:show2()}" /> -->
+		    <input type="button" value="键盘" v-on:keyup.enter="show()"> 
+		</div>
+        <script>
+			/*
+			  v-on
+			  1)标准写法 v-on:click="方法或表达式"
+			  2)缩写 @事件="方法或表达式" 
+			  2:使用方法
+			  1)[通过指令直接调用方法]v-on与表达式的使用，在v-on当中可以直接调用data当中的数据
+			  2)[通过指令调用方法]v-on:click="方法名()"
+			  3)[通过指令同时响应多个方法] v-on=“｛mouseenter:show(),mouseleaver:show2()｝”              4)[键盘修饰符] v-on:事件.键值="方法“@keyup.enter=“show()"
+			*/ 
+			var vm=new Vue({
+				el:"#content",
+				data:{
+					num:0
+				},
+				methods:{
+					show:function(){
+						alert("A");
+					},
+					show2:function(){
+						alert("B");
+					}
+				}
+			})
+		</script>
+	</body>
+	
+</html>

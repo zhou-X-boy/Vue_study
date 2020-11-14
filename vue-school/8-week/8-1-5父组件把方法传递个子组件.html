@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<com1 @func="show"></com1>
+		</div>
+		<template id="tmp1">
+			<div>
+				<h2>这是一个子组件</h2>
+				<input type="button" value="点击" @click="myclick" />
+			</div>
+		</template>
+		<script>
+		  var	com1 = {
+				data() {
+					return{
+						sonmsg: [{name:'a',age:20}]
+					}
+				},
+				template:"#tmp1",
+				methods: {
+					myclick(){
+						this.$emit('func',this.sonmsg)
+					}
+				}
+			}
+			new Vue({
+				el:'#app',
+				data: {
+					datamsgFormSon: null 
+				},
+				methods: {
+					show(data) {
+						this.datamsgFormSon = data
+					}
+				},
+				components: {
+					com1
+				}
+			})
+		</script>
+	</body>
+</html>
