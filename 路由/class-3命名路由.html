@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <!-- 1：引入vue的模块 -->
+  <script src="/Vue_study/node_modules/vue/dist/vue.js"></script>
+  <!-- 2：引入vue-router模块 -->
+  <script src="/Vue_study/node_modules/vue-router/dist/vue-router.js"></script>
+
+  <script>
+    //局部组件
+    var Login = {
+      template: `
+        <div>我是登录页面</div>
+      `
+    }
+    var Register = {
+      template: `
+        <div>我是注册页面</div>
+      `
+    }
+
+    //3：让Vue使用该VueRouter创建
+    // Vue.use(VueRouter)
+
+    //4：创建router对象
+    var router = new VueRouter({
+      //5：配置路由对象
+      routes: [
+        //路由匹配的规则
+        { path: '/login', name: 'login', component: Login },
+        { path: '/register', name: 'register', component: Register },
+      ]
+    })
+
+
+    //引入vue-router模块，就会抛出两个去全局组件 
+    //router-link ,中有一个属性to==>href  router-link==>渲染的a标签
+    //router-view ，对应着路由匹配组件的出口
+    var App = {
+      template: `
+        <div>
+          <router-link :to="{name: 'login'}">登录页面</router-link>
+          <router-link :to="{name: 'register'}">注册页面</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+      //6：交给vue实例化对象管理
+      router,
+      template: `
+        <App/>
+      `
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>动态路由匹配</title>
+  <script src="/Vue_study/node_modules/vue/dist/vue.js"></script>
+  <Script src="/Vue_study/node_modules/vue-router/dist/vue-router.js"></Script>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script>
+    var Timeline = {
+      template: `
+        <div id='timeline'>
+          我是首页
+        </div>
+      `,
+      created() {
+        console.log('首页组件创建了')
+      },
+      mounted() {
+        console.log('首页组件DOM加载了')
+      },
+      destroyed() {
+        console.log('首页组件销毁了')
+      }
+    }
+    var Pins = {
+      template: `
+        <div>
+          <h2 @click='clickHandler'>我是沸点</h2>
+        </div>
+      `,
+      methods: {
+        clickHandler(e) {
+          e.target.style.color = 'red'
+        }
+      },
+      created() {
+        console.log('沸点组件创建了')
+      },
+      mounted() {
+        console.log('沸点组件DOM加载了')
+      },
+      destroyed() {
+        console.log('沸点组件销毁了')
+      }
+    }
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/timeline',
+          component: Timeline
+        },
+        {
+          path: '/pins',
+          component: Pins
+        }
+      ]
+    })
+    var App = {
+      data() {
+        return {
+
+        }
+      },
+      template: `
+        <div>
+          <router-link to='/timeline'>首页</router-link> 
+          <router-link to='/pins'>沸点</router-link>
+          // keep-alive 将组件缓存起来，保存原来状态不去销毁
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `
+        <App/>
+      `,
+      router
+    })
+  </script>
+</body>
+
+</html>
