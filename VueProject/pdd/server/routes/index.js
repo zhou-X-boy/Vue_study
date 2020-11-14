@@ -96,6 +96,8 @@ router.get('/api/homenav', (req, res)=>{
    */
   const data = require('../data/homenav');
   res.json({success_code: 200, message: data});
+
+
 });
 
 /**
@@ -120,8 +122,25 @@ router.get('/api/homeshoplist', (req, res)=>{
  */
 router.get('/api/recommendshoplist', (req, res)=>{
   setTimeout(function () {
-    const data = require('../data/recommend');
-    res.json({success_code: 200, message: data})
+    // const data = require('../data/recommend');
+    // res.json({success_code: 200, message: data})
+
+    //1：定义查询语句
+    let sqlStr = "select * from pdd_recommend"
+    //2：执行语句
+    conn.query(sqlStr, (err, results)=>{
+      if(err){
+        res.json({
+          error_code: 1,  //失败响应的状态码
+          message: err,   //失败返回的数据
+        })
+      }else{
+        res.json({
+          success_code: 200,  //成功响应状态码
+          message: results    //成功从数据库查询到的数据
+        })
+      }
+    })
   }, 10);
 });
 
