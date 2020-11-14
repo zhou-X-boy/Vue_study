@@ -9,6 +9,18 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
+//跨域问题
+app.all("*", function(req, res, next) {
+  if (!req.get("Origin")) return next();
+  // use "*" here to accept any origin
+  res.set("Access-Control-Allow-Origin","*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+  // res.set('Access-Control-Allow-Max-Age', 3600);
+  if ("OPTIONS" === req.method) return res.sendStatus(200);
+  next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
