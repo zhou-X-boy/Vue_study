@@ -9,13 +9,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-//批量将JSON格式的数据插入到数据库当中
+/*批量将recommend.json的数据插入到数据库的recommend表当中*/
 //1：获取到需要批量插入的JSON文件中的数据
 const recommendArr = require('./../data/recommend').data;
 router.get('/recommend/api', function (req, res, next) {
   // 1. 定义临时数组
   let temp_arr_all = [];
   // 2. 遍历获取到的JSON文件获取到的数据
+  //
   for (let i = 0; i < recommendArr.length; i++) {
     // 2.1 取出该数据中的单个数据对象
     let oldItem = recommendArr[i];
@@ -38,18 +39,87 @@ router.get('/recommend/api', function (req, res, next) {
   // console.log(temp_arr_all);
 
   // 3. 批量插入数据库表
-  // 3.1 数据库查询的语句
-  let sqlStr = "INSERT INTO pdd_recommend(goods_id,goods_name,short_name,thumb_url,hd_thumb_url,image_url,price,normal_price,market_price,sales_tip,hd_url) VALUES ?";
+  // 3.1 数据库插入的语句
+  let sqlStr = "INSERT INTO recommend(goods_id,goods_name,short_name,thumb_url,hd_thumb_url,image_url,price,normal_price,market_price,sales_tip,hd_url) VALUES ?";
   // 3.2 执行语句
-  conn.query(sqlStr, [temp_arr_all], (error, results, fields) => {
+  conn.query(sqlStr, [temp_arr_all], (error, results) => {
     if (error) {
-      console.log(error);
-      console.log('插入失败');
+      console.log('插入失败'+error);
     } else {
       console.log('插入成功');
     }
   });
 });
+
+/*批量将homenav.json转换到数据库的homenav表中*/
+//1：获取到需要批量插入的JSON数据
+const homenavArr = require('./../data/homenav.json').data;
+router.get('/homenav/api',function(req,resp,next){
+  //2：定义一个临时数组
+  let tempArr_all = [];
+  //3：遍历获取到的需要批量插入到数据库表中的JSON数据
+  for(i = 0;i<homenavArr.length;i++){
+    //4：取得该数组中的单个数组
+    let oldAll = homenavArr[i];
+    //5：取出对应数据库表当中需要插入的字段
+    let temp_arr = [];
+    temp_arr.push(oldAll.iconurl);
+    temp_arr.push(oldAll.icontitle);
+    //6：合并到临时数组当中
+    tempArr_all.push(temp_arr);
+  }
+  // console.log(tempArr_all);
+  //7：定义一个数据库插入语句
+  let sqlStr = "INSERT INTO homenav(iconurl,icontitle) VALUES ?"
+  //8：执行语句
+  conn.query(sqlStr,[tempArr_all],(err,results)=> {
+    if (err){
+      console.log("插入失败"+err);
+    }else{
+      console.log("插入成功");
+    }
+  });
+});
+
+/*批量将shopList.json中的数据插入到数据库的表homeshop当中*/
+//1：获取到需要批量插入的JSON数据
+const homeshopArr = require('./../data/shopList.json').goods_list;
+router.get('/homeshop/api',function(req,resp,next){
+  //2：定义一个临时数组
+  let tempArr_all = [];
+  //3：遍历获取到的需要批量插入到数据库当中的JSON数据
+  for(i = 0; i<homeshopArr.length; i++){
+    //4：取得数组当中的单个数组
+    let oldArr = homeshopArr[i];
+    //5：取出对应数据库当中需要插入的字段
+    let temp_arr = [];
+    temp_arr.push(oldArr.goods_id);
+    temp_arr.push(oldArr.goods_name);
+    temp_arr.push(oldArr.short_name);
+    temp_arr.push(oldArr.image_url);
+    temp_arr.push(oldArr.thumb_url);
+    temp_arr.push(oldArr.hb_thumb_url);
+    temp_arr.push(oldArr.market_price);
+    temp_arr.push(oldArr.normal_price);
+    temp_arr.push(oldArr.sales_tip);
+    //6：合并到临时数组当中
+    tempArr_all.push(temp_arr);
+  }
+  // console.log(tempArr_all);
+  //7：定义一个数据库插入语句
+  let sqlStr = "INSERT INTO homeshop(goods_id,goods_name,short_name,image_url,thumb_url,hb_thumb_url,market_price,normal_price,sales_tip) VALUES ?";
+  //8：执行插入语句
+  conn.query(sqlStr,[tempArr_all],(err,results)=> {
+    if(err){
+      console.log('插入失败'+err);
+    }else{
+      console.log('插入成功');
+    }
+  })
+});
+
+/*批量将search.json中的数据插入到数据库的表search当中*/
+
 
 
 /**
@@ -60,7 +130,7 @@ router.get('/api/homecasual', (req, res)=>{
   // res.json({success_code: 200, message: data})
 
   //1：定义查询数据库中的轮播图语句
-  let sqlStr = 'select * from pdd_homecasual';
+  let sqlStr = 'select * from homecasual';
   /*2：执行语句
   * conn.query('select * from homecasual',functuon()=>{})
   * err，执行错误返回的错误语句
@@ -87,16 +157,24 @@ router.get('/api/homecasual', (req, res)=>{
  * 获取首页导航
  */
 router.get('/api/homenav', (req, res)=>{
-  /*
-  let sqlStr = 'select * from homenav';
-   conn.query(sqlStr, (err, results) => {
-       if (err) return res.json({err_code: 1, message: '资料不存在', affextedRows: 0})
-       res.json({success_code: 200, message: results, affextedRows: results.affextedRows})
-   })
-   */
-  const data = require('../data/homenav');
-  res.json({success_code: 200, message: data});
-
+  // const data = require('../data/homenav');
+  // res.json({success_code: 200, message: data});
+  //1：定义查询语句
+  let sqlStr = "SELECT * FROM homenav";
+  //2：执行语句
+  conn.query(sqlStr, (err, results)=> {
+    if(err){
+      res.json({
+        err_code: 1,
+        message: err
+      })
+    }else{
+      res.json({
+        success_code: 200,
+        message: results
+      })
+    }
+  })
 
 });
 
@@ -126,7 +204,7 @@ router.get('/api/recommendshoplist', (req, res)=>{
     // res.json({success_code: 200, message: data})
 
     //1：定义查询语句
-    let sqlStr = "select * from pdd_recommend"
+    let sqlStr = "select * from recommend"
     //2：执行语句
     conn.query(sqlStr, (err, results)=>{
       if(err){
