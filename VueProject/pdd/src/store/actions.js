@@ -39,11 +39,13 @@ export default {
     commit(HOME_SHOP_LIST, {homeshoplist: result.message.goods_list});
   },
   //获取推荐商品列表
-  async reqRecommendShopList({commit}){
+  async reqRecommendShopList({commit},params){
+    // console.log(params);
     //提取服务端的请求数据并赋值给一个新的数组，也就是api文件夹下的index.js中的getRecommendShopList函数所获取到的数据
-    const result = await getRecommendShopList();
+    const result = await getRecommendShopList(params);
     //commit 异步 触发指定的 mutations 中的方法
     commit(RECOMMEND_SHOP_LIST, {recommendshoplist: result.message});
+    params.callback && params.callback();
   },
   //获取搜索列表
   async reqSearchGoods({commit},callback){

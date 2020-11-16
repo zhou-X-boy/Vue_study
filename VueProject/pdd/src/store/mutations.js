@@ -27,7 +27,7 @@ export default {
   //推荐商品列表
   [RECOMMEND_SHOP_LIST](state,{recommendshoplist}){
     //将服务端请求过来的 recommendshoplist 赋值给state中定义的数组 recommendshoplist
-    state.recommendshoplist = recommendshoplist;
+    state.recommendshoplist = state.recommendshoplist.concat(recommendshoplist);
   },
   //搜索列表
   [SEARCH_GOODS](state,{searchgoods}){

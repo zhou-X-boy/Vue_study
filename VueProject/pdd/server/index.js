@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 
@@ -5,14 +6,14 @@ const router = express.Router();
 const conn = require('./../db/db');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res, ) {
   res.render('index', { title: 'Express' });
 });
 
 /*批量将recommend.json的数据插入到数据库的recommend表当中*/
 //1：获取到需要批量插入的JSON文件中的数据
 const recommendArr = require('./../data/recommend').data;
-router.get('/recommend/api', function (req, res, next) {
+router.get('/recommend/api', function (req, res, ) {
   // 1. 定义临时数组
   let temp_arr_all = [];
   // 2. 遍历获取到的JSON文件获取到的数据
@@ -93,13 +94,12 @@ router.get('/homeshop/api',function(req,resp,next){
     let oldArr = homeshopArr[i];
     //5：取出对应数据库当中需要插入的字段
     let temp_arr = [];
-    temp_arr.push(oldArr.id);
     temp_arr.push(oldArr.goods_id);
     temp_arr.push(oldArr.goods_name);
     temp_arr.push(oldArr.short_name);
     temp_arr.push(oldArr.image_url);
     temp_arr.push(oldArr.thumb_url);
-    temp_arr.push(oldArr.hd_thumb_url);
+    temp_arr.push(oldArr.hb_thumb_url);
     temp_arr.push(oldArr.market_price);
     temp_arr.push(oldArr.normal_price);
     temp_arr.push(oldArr.sales_tip);
@@ -108,7 +108,7 @@ router.get('/homeshop/api',function(req,resp,next){
   }
   // console.log(tempArr_all);
   //7：定义一个数据库插入语句
-  let sqlStr = "INSERT INTO homeshop(id,goods_id,goods_name,short_name,image_url,thumb_url,hd_thumb_url,market_price,normal_price,sales_tip) VALUES ?";
+  let sqlStr = "INSERT INTO homeshop(goods_id,goods_name,short_name,image_url,thumb_url,hb_thumb_url,market_price,normal_price,sales_tip) VALUES ?";
   //8：执行插入语句
   conn.query(sqlStr,[tempArr_all],(err,results)=> {
     if(err){
@@ -119,10 +119,24 @@ router.get('/homeshop/api',function(req,resp,next){
   })
 });
 
+/*批量将search.json中的数据插入到数据库的表search当中*/
 
-
-
-
+router.get('/search/api',function(req, res){
+  let sqlStr = 'SELECT * FROM homeshop;SELECT a.goods_id,b.group_order_id,b.avatar1,b.avatar2 FROM homeshop a INNER JOIN bubble b on a.goods_id=b.group_order_id WHERE b.group_order_id';
+  conn.query(sqlStr,(err,results)=>{
+    if(err){
+      res.json({
+        err_code:1,
+        message:err,
+      })
+    }else {
+      res.json({
+        success_code:200,
+        message: results,
+      })
+    }
+  })
+})
 
 
 /**
@@ -202,18 +216,12 @@ router.get('/api/homeshoplist', (req, res)=>{
  * 获取推荐商品列表
  */
 router.get('/api/recommendshoplist', (req, res)=>{
-  //获取参数
-  let pageNo = req.query.page || 1;
-  let pageSize = req.query.count || 20;
-  // console.log(pageNo);
-  // console.log(pageSize);
-
+  setTimeout(function () {
     // const data = require('../data/recommend');
     // res.json({success_code: 200, message: data})
 
     //1：定义查询语句
-    let sqlStr = "select * from recommend LIMIT "+ (pageNo-1)*pageSize+","+pageSize;
-    // console.log(sqlStr);
+    let sqlStr = "select * from recommend"
     //2：执行语句
     conn.query(sqlStr, (err, results)=>{
       if(err){
@@ -222,15 +230,13 @@ router.get('/api/recommendshoplist', (req, res)=>{
           message: err,   //失败返回的数据
         })
       }else{
-        setTimeout(()=> {
-          res.json({
-            success_code: 200,  //成功响应状态码
-            message: results    //成功从数据库查询到的数据
-          })
-        },1000);
+        res.json({
+          success_code: 200,  //成功响应状态码
+          message: results    //成功从数据库查询到的数据
+        })
       }
     })
-
+  }, 10);
 });
 
 /**
