@@ -3,11 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+app.set('trust proxy', 1);
+app.use(session({
+  secret: '12345',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 //跨域问题
 app.all("*", function(req, res, next) {
@@ -49,5 +58,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

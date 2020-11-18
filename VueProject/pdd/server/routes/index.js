@@ -1,18 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
+function require(s) {
+  return undefined;
+}
+
 //引入连接的mysql的模块
 const conn = require('./../db/db');
 
+//引入svg-captcha模块
+const svgCaptcha = require('svg-captcha');
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
 /*批量将recommend.json的数据插入到数据库的recommend表当中*/
 //1：获取到需要批量插入的JSON文件中的数据
 const recommendArr = require('./../data/recommend').data;
-router.get('/recommend/api', function (req, res, next) {
+router.get('/recommend/api', function (req, res) {
   // 1. 定义临时数组
   let temp_arr_all = [];
   // 2. 遍历获取到的JSON文件获取到的数据
@@ -54,7 +61,7 @@ router.get('/recommend/api', function (req, res, next) {
 /*批量将homenav.json转换到数据库的homenav表中*/
 //1：获取到需要批量插入的JSON数据
 const homenavArr = require('./../data/homenav.json').data;
-router.get('/homenav/api',function(req,resp,next){
+router.get('/homenav/api',function(req,resp){
   //2：定义一个临时数组
   let tempArr_all = [];
   //3：遍历获取到的需要批量插入到数据库表中的JSON数据
@@ -84,7 +91,7 @@ router.get('/homenav/api',function(req,resp,next){
 /*批量将shopList.json中的数据插入到数据库的表homeshop当中*/
 //1：获取到需要批量插入的JSON数据
 const homeshopArr = require('./../data/shopList.json').goods_list;
-router.get('/homeshop/api',function(req,resp,next){
+router.get('/homeshop/api',function(req,resp){
   //2：定义一个临时数组
   let tempArr_all = [];
   //3：遍历获取到的需要批量插入到数据库当中的JSON数据
@@ -118,10 +125,6 @@ router.get('/homeshop/api',function(req,resp,next){
     }
   })
 });
-
-
-
-
 
 
 
@@ -227,7 +230,7 @@ router.get('/api/recommendshoplist', (req, res)=>{
             success_code: 200,  //成功响应状态码
             message: results    //成功从数据库查询到的数据
           })
-        },1000);
+        },100);
       }
     })
 
@@ -252,5 +255,35 @@ router.get('/api/searchgoods', (req, res)=>{
     res.json({success_code: 200, message: data})
   }, 10);
 });
+
+
+/**
+ * 一次性图形验证码
+ */
+router.get('/api/svgcaptcha',(req, res)=> {
+  //1：生成随机的图形验证码
+  let captcha = svgCaptcha.create({
+    color: true,  //颜色
+    noise: 2,     //干扰的线条
+    ignoreChars: 'o0ii',   //忽略的字母，也就是不会出现的字符
+    size: 4,      //字符个数
+    background: '#ffffff'    //背景颜色
+  });
+  // console.log(captcha.text);
+
+  //2：保存到session当中     toLocaleLowerCase()方法，将字符全部转化为小写
+  req.session.captcha = captcha.text.toLocaleLowerCase();
+  // console.log(req.session.captcha);
+  // //3：返回给客户端
+  res.type('svg');
+  res.send(captcha.data);
+});
+
+/**
+ * 发送验证码短信
+ */
+router.get('/api/sendcode',(req,res)=> {
+
+})
 
 module.exports = router;

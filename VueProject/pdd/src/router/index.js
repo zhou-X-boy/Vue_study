@@ -10,6 +10,7 @@ import Recommend from './../pages/Recommend/Recommend'
 import Search from './../pages/Search/Search'
 import Chat from './../pages/Chat/Chat'
 import Me from './../pages/Me/Me'
+import Login from './../pages/Login/Login'
 
 // 引入首页二级路由
 import Hot from '../pages/Home/Children/Hot/Hot'
@@ -33,33 +34,46 @@ export default new VueRouter({
       path: '/home',
       component: Home,
       children: [
-        {path: 'hot', component: Hot},
-        {path: 'dress', component: Dress},
-        {path: 'box', component: Box},
-        {path: 'mbaby',component: Mbaby},
-        {path: 'general',component: General},
-        {path: 'food',component: Food},
-        {path: 'shirt',component: Shirt},
-        {path: 'man',component:Man},
-        {path: 'ele',component:Ele},
+        {path: 'hot', component: Hot,meta: {showBottomTabBar: true}},
+        {path: 'dress', component: Dress,meta: {showBottomTabBar: true}},
+        {path: 'box', component: Box,meta: {showBottomTabBar: true}},
+        {path: 'mbaby',component: Mbaby,meta: {showBottomTabBar: true}},
+        {path: 'general',component: General,meta: {showBottomTabBar: true}},
+        {path: 'food',component: Food,meta: {showBottomTabBar: true}},
+        {path: 'shirt',component: Shirt,meta: {showBottomTabBar: true}},
+        {path: 'man',component:Man,meta: {showBottomTabBar: true}},
+        {path: 'ele',component:Ele,meta: {showBottomTabBar: true}},
         {path: '/home',redirect:'/home/hot'}
-      ]
+      ],
+      meta: {showBottomTabBar: true}
     },
     {
       path: '/recommend',
-      component: Recommend
+      component: Recommend,
+      meta: {showBottomTabBar: true}
+
     },
     {
       path: '/search',
-      component: Search
+      component: Search,
+      meta: {showBottomTabBar: true}
+
     },
     {
       path: '/Chat',
-      component: Chat
+      component: Chat,
+      meta: {showBottomTabBar: true}
+
     },
     {
       path: '/me',
-      component: Me
+      component: Me,
+      meta: {showBottomTabBar: true}
+
+    },
+    {
+      path: '/login',
+      component: Login
     },
     {
       path: '/',

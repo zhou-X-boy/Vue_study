@@ -22,13 +22,13 @@
 
 > 官方图示
 >
-> ![](E:\Pictures\资料\vuex1.png)
+> ![](D:\Study\notes\图片资料\vuex1.png)
 
 ### 手写图示
 
 > 手写图示
 >
-> ![](E:\Pictures\资料\vuex.png)
+> ![](D:\Study\notes\图片资料\vuex.png)
 
 ------
 

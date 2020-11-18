@@ -3,7 +3,7 @@
     <!--路由组件-->
     <router-view></router-view>
     <!--底部路由组件-->
-    <tab-bar></tab-bar>
+    <tab-bar v-if="$route.meta.showBottomTabBar"></tab-bar>
   </div>
 </template>
 

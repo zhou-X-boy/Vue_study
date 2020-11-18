@@ -22,7 +22,7 @@ export default function ajax(url = '',params = {},type = 'GET') {
       //2.3：完整路径
       url += '?' + paramsStr;
       //2.4：发送 GTE 请求
-      promise = axios.get(url)
+      promise = axios.get(url);
     }else if('POST' === type){
       //发送 POST 请求
       promise = axios.post(url,params);

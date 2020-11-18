@@ -1,10 +1,14 @@
 <template>
-  <div class="me">个人中心</div>
+  <div class="me">
+    <select-login/>
+  </div>
 </template>
 
 <script>
+import SelectLogin from "../Login/SelectLogin";
 export default {
-name: "Me"
+  name: "Me",
+  components: {SelectLogin}
 }
 </script>
 
@@ -12,5 +16,5 @@ name: "Me"
 .me
   width 100%
   height 100%
-  background-color aqua
+  background-color #f5f5f5
 </style>
