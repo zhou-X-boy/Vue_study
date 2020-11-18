@@ -230,7 +230,7 @@ router.get('/api/recommendshoplist', (req, res)=>{
             success_code: 200,  //成功响应状态码
             message: results    //成功从数据库查询到的数据
           })
-        },100);
+        },1500);
       }
     })
 
@@ -307,19 +307,22 @@ router.get('/api/sendcode',(req,res)=> {
 
   //因为短信提供商提供的短信接口需要付费，就让他成功后直接将验证吗码发送给客户端，不通过短信发送
   //成功
-  // users[phone] = code;
-  // res.json({
-  //   success_code: 200,
-  //   message: code
-  // });
+  setTimeout(()=> {
+    users[phone] = code;
+    res.json({
+      success_code: 200,
+      message: code
+    });
+  },2000);
+
   //默认都是成功，就不需要失败的返回参数
   //失败
-  setTimeout(()=> {
-    res.json({
-      error_code: 0,
-      message: '验证码获取失败'
-    });
-  },2000)
+  // setTimeout(()=> {
+  //   res.json({
+  //     error_code: 0,
+  //     message: '验证码获取失败'
+  //   });
+  // },2000);
 
 })
 

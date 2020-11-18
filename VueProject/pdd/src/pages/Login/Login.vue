@@ -135,7 +135,10 @@ export default {
           position: 'center',
           duration: 3000
         });
-        clearInterval(this.intervalId);
+        //清除定时器
+        // clearInterval(this.intervalId);
+        //重新开始计时
+        // this.countDown = 0
       }
     },
     //密码的显示方式，明文或者密文
@@ -151,7 +154,19 @@ export default {
   computed: {
     //验证手机号码是否正确
     phoneRight() {
-      return /^[1][3,5,7,8][0-9]{9}$/.test(this.phone)
+      // return /^[1][3,5,7,8][0-9]{9}$/.test(this.phone);
+      if(!/^[1][3,5,7,8][0-9]{9}$/.test(this.phone)){
+        if(this.phone.length === 11){
+          Toast({
+            message: '请输入正确格式的手机号码13*/15*/17*/18*',
+            position: 'center',
+            duration: 3000,
+          });
+        }
+      }else {
+        return /^[1][3,5,7,8][0-9]{9}$/.test(this.phone);
+      }
+
     }
   }
 }
