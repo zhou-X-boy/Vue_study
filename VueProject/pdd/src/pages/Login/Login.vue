@@ -89,6 +89,10 @@
 </template>
 
 <script>
+//引入请求验证码的方法
+import  {getPhoneCode} from "./../../api/index";
+import {Toast} from "mint-ui";
+
 export default {
   name: "Login",
   data() {
@@ -104,21 +108,34 @@ export default {
     dealLoginMode(flag) {
       this.loginMode = flag
     },
-    //倒计时
-    getVerifyCode() {
-      //1：开启倒计时,手机号码正确开启倒计时
+    //获取短信验证码
+    async getVerifyCode() {
+      //开启倒计时,手机号码正确开启倒计时
       if(this.phoneRight){
-        //2：设置倒计时开始的时长
+        //1：设置倒计时开始的时长
         this.countDown = 60;
-        //3：设置一个定时器实现倒计时
+        //2：设置一个定时器实现倒计时
         this.intervalId = setInterval(()=> {
-          //4：进行计时数字递减
+          //3：进行计时数字递减
           this.countDown--;
-          //5：判断，当倒计时为0时，清除定时器
+          //4：判断，当倒计时为0时，清除定时器
           if(this.countDown === 0){
             clearInterval(this.intervalId);
           }
         },1000);
+      }
+      //获取短信验证码
+      let result = await getPhoneCode(this.phone);
+      console.log(result);
+
+      //获取验证码失败
+      if(result.error_code === 0){
+        Toast({
+          message: '获取验证码失败',
+          position: 'center',
+          duration: 3000
+        });
+        clearInterval(this.intervalId);
       }
     },
     //密码的显示方式，明文或者密文
@@ -186,7 +203,7 @@ export default {
             outline 0
             font 400 14px Arial
             &:focus
-              border 1px solid mediumpurple
+              border 1px solid red
           .login-message
             position relative
             margin-top 16px

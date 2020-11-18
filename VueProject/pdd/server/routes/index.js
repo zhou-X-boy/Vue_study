@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-function require(s) {
-  return undefined;
-}
 
 //引入连接的mysql的模块
 const conn = require('./../db/db');
 
 //引入svg-captcha模块
 const svgCaptcha = require('svg-captcha');
+
+//引入第三方短信提供商提供的短信接口,这里是腾讯云的
+const sms_util = require("./../util/sms_util");
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -282,7 +282,44 @@ router.get('/api/svgcaptcha',(req, res)=> {
 /**
  * 发送验证码短信
  */
+let users = {}; //用户信息
 router.get('/api/sendcode',(req,res)=> {
+  //1：获取手机号码
+  let phone = req.query.phone;
+  //2：随机产生验证码   调用sms_util.js中的randomCode()方法
+  let code = sms_util.randomCode(6);
+  // console.log(code);
+  // //通过短信提供商提供的接口发送验证码信息
+  // sms_util.sendCode(phone,code, function (success) {
+  //   if(success) {
+  //     users[phone] = code;
+  //     res.json({
+  //       success_code: 200,
+  //       message: '验证码获取成功'
+  //     });
+  //   }else {
+  //     res.json({
+  //       err_code: 0,
+  //       message: '验证码获取失败'
+  //     });
+  //   }
+  // });
+
+  //因为短信提供商提供的短信接口需要付费，就让他成功后直接将验证吗码发送给客户端，不通过短信发送
+  //成功
+  // users[phone] = code;
+  // res.json({
+  //   success_code: 200,
+  //   message: code
+  // });
+  //默认都是成功，就不需要失败的返回参数
+  //失败
+  setTimeout(()=> {
+    res.json({
+      error_code: 0,
+      message: '验证码获取失败'
+    });
+  },2000)
 
 })
 

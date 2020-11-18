@@ -19,3 +19,6 @@ export const getRecommendShopList = (params)=> ajax(BASE_URL + '/api/recommendsh
 
 //2.5：请求搜索列表数据
 export const getSearchGoods = ()=> ajax(BASE_URL + '/api/searchgoods');
+
+//2.6：请求短信验证码
+export const getPhoneCode = (phone)=> ajax(BASE_URL + '/api/sendcode' ,{phone});
