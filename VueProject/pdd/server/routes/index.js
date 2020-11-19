@@ -11,6 +11,11 @@ const svgCaptcha = require('svg-captcha');
 //引入第三方短信提供商提供的短信接口,这里是腾讯云的
 const sms_util = require("./../util/sms_util");
 
+/**
+ * res：客户端提交给服务器的信息
+ * req：服务端发送给客户端的信息
+ */
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
@@ -147,7 +152,8 @@ router.get('/api/homecasual', (req, res)=>{
          res.json({
            err_code: 1,  //执行错误返回的状态码
            message: '资料不存在',
-           affextedRows: 0})
+           affextedRows: 0
+         })
        }else {
          res.json({
            success_code: 200,  //执行成功返回的状态码
@@ -325,5 +331,91 @@ router.get('/api/sendcode',(req,res)=> {
   // },2000);
 
 })
+
+/**
+ * 手机验证码登录
+ */
+router.post('/api/logincode',(req,res)=> {
+  //1：获取客户端提交过来的数据包括手机号码，验证码
+  const phone = req.body.phone;
+  const code = req.body.code;
+  //2：验证客户端发送过来的验证码是否匹配服务器发送过去的验证码
+  if(users[phone] !== code) {
+    return res.json({
+      error_code: 0,
+      message: '验证码错误'
+    });
+  }else {
+    //3：删除用户验证码信息
+    delete users[phone];
+    //3：根据手机号码查询数据库中是否存在这个手机号码的用户
+    //3.1：定义查询语句
+    let sqlStr = "SELECT * FROM user_info WHERE user_phone = '" + phone + "' LIMIT 1";
+    //3.2：执行查询语句
+    conn.query(sqlStr,(error,results)=> {
+      if(error) {
+        res.json({
+          error_code: 0,
+          message: '从数据库请求数据失败'
+        })
+      }else {
+        //3.3：将数组格式的数据转化为字符串格式后再转化为JSON格式
+        results = JSON.parse(JSON.stringify(results));
+        // console.log(results);
+        // console.log(results[0]);
+        //3.4：判断用户是否存在
+        //用户已经存在
+        if(results[0]) {
+          //3.5：将从数据库查询到的数据的id保存到session中
+          req.session.userId = results[0].id;
+          //3.6：返回数据给客户端
+          res.json({
+            id: results[0].id,
+            user_name: results[0].user_name,
+            user_phone: results[0].user_name
+          })
+        }else {  //用户不存在,新用，向数据库表中插如这个新用户的信息
+          //3.7：定义一条向数据库表中插入这个信息的语句
+          const addStr = "INSERT INTO user_info(user_name,user_phone) VALUES (?,?)";
+          //3.8：需要向数据库表插入的数据
+          const addParams = [phone,phone];
+          //3.9：执行语句
+          conn.query(addStr,addParams,(error,results)=> {
+            //3.10：将数组格式的数据转化为字符串格式再转化为JSON格式
+            results = JSON.parse(JSON.stringify(results));
+            // console.log(results);
+            if(!error) {
+              //3.11：将感刚刚插入的数据的id保存到session中
+              req.session.id = results.insertId;
+              //3.12：定义一个查询语句，查询刚刚插入到数据库表中的新用户的信息
+              let sqlStr = "SELECT * FROM user_info WHERE id = '" + results.insertId + "' LIMIT 1";
+              //3.13：执行语句
+              conn.query(sqlStr,(error,results)=> {
+                if(error) {
+                  res.json({
+                    error_code: 0,
+                    message: error
+                  });
+                }else {
+                  //3.14：将从数据库表中查询到的数据转化为字符串格式再转化为JSON格式
+                  results = JSON.parse(JSON.stringify(results));
+                  //3.15；将数据发送给客户端
+                  res.json({
+                    success_code: 200,
+                    message: {
+                      id: results[0].id,
+                      user_name: results[0].user_name,
+                      user_phone: results[0].user_phone
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }
+});
 
 module.exports = router;

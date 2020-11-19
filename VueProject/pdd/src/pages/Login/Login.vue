@@ -40,7 +40,7 @@
             </section>
             <section class="login-verification">
               <label>
-                <input type="tel" maxlength="8" placeholder="验证码">
+                <input type="tel" maxlength="6" placeholder="验证码" v-model="code">
               </label>
             </section>
             <section class="login-hint">
@@ -80,7 +80,7 @@
                </section>
             </section>
           </div>
-          <button class="login-submit">登录</button>
+          <button class="login-submit" @click.prevent="login()">登录</button>
         </form>
         <button class="login-back" @click="$router.back()">返回</button>
       </div>
@@ -89,8 +89,8 @@
 </template>
 
 <script>
-//引入请求验证码的方法
-import  {getPhoneCode} from "./../../api/index";
+//引入请求验证码的方法和手机验证码登录的方法
+import  {getPhoneCode,phoneCodeLogin} from "./../../api/index";
 import {Toast} from "mint-ui";
 
 export default {
@@ -101,6 +101,7 @@ export default {
       phone: '', //手机号码
       countDown: 0,  //验证码倒计时
       pwdMode: true,  //密码的显示方式 true，密文显示；false，明文显示
+      code: ''
     }
   },
   methods: {
@@ -149,6 +150,30 @@ export default {
     getCaptCha() {
       //动态的将请求到的图形验证码绑定到ref=captcha的上面，也就是图形验证码所在的img标签上
       this.$refs.captcha.src = 'http://127.0.0.1:3000/api/svgcaptcha?time=' + new Date();
+    },
+    //实现登录
+    async login() {
+      //判断是验证码登录还是密码登录；loginMode为true为验证码登录；为false为密码登录
+      if(this.loginMode) {   //验证码登录
+        //1：前端校验，
+        //手机号码是否存在，是否为空
+        if(!this.phone) {  //手机号码为空
+          return  Toast('请输入手机号码');
+        }else if(!this.phoneRight) {  //手机号码不正确
+          return Toast('请输入正确的手机号码');
+        }
+        //验证码是否存在，格式是否正确
+        if(!this.code) {  //验证码为空
+          return Toast('请输入验证码');
+        }else if(!(/^\d{6}$/.test(this.code))) {  //验证码格式错误
+          return Toast('请输入正确格式的验证码');
+        }
+        //2：手机验证码登录
+        const result = await phoneCodeLogin(this.phone,this.code);
+        console.log(result);
+      }else {   //账号密码登录
+
+      }
     }
   },
   computed: {

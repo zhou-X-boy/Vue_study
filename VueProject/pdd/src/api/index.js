@@ -22,3 +22,6 @@ export const getSearchGoods = ()=> ajax(BASE_URL + '/api/searchgoods');
 
 //2.6：请求短信验证码
 export const getPhoneCode = (phone)=> ajax(BASE_URL + '/api/sendcode' ,{phone});
+
+//2.7：手机验证码登录
+export const phoneCodeLogin = (phone,code)=> ajax(BASE_URL+'/api/logincode',{phone, code},'POST');
