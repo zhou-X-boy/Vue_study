@@ -5,7 +5,7 @@ import {
   getHomeNav,
   getHomeShopList,
   getRecommendShopList,
-  getSearchGoods
+  getSearchGoods,
 } from '../api'
 
 import {
@@ -13,7 +13,8 @@ import {
   HOME_NAV,
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
-  SEARCH_GOODS
+  SEARCH_GOODS,
+  USER_INFO
 } from './mutation-types'
 
 export default {
@@ -55,5 +56,9 @@ export default {
     commit(SEARCH_GOODS, {searchgoods: result.message.data});
     //回调执行，初始化滚动列表
     //callback && callback();
+  },
+  //同步用户信息
+  syncUserInfo({commit},userInfo){
+    commit(USER_INFO,{userInfo})
   }
 }

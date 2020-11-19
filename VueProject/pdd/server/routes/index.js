@@ -370,9 +370,12 @@ router.post('/api/logincode',(req,res)=> {
           req.session.userId = results[0].id;
           //3.6：返回数据给客户端
           res.json({
-            id: results[0].id,
-            user_name: results[0].user_name,
-            user_phone: results[0].user_name
+            success_code: 200,
+            message: {
+              id: results[0].id,
+              user_name: results[0].user_name,
+              user_phone: results[0].user_name
+            }
           })
         }else {  //用户不存在,新用，向数据库表中插如这个新用户的信息
           //3.7：定义一条向数据库表中插入这个信息的语句

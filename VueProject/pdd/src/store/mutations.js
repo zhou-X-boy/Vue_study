@@ -5,7 +5,8 @@ import {
   HOME_NAV,
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
-  SEARCH_GOODS
+  SEARCH_GOODS,
+  USER_INFO
 } from './mutation-types'
 
 export default {
@@ -33,5 +34,10 @@ export default {
   [SEARCH_GOODS](state,{searchgoods}){
     //将服务端请求过的 searchgoods 赋值给state中定义的数组 searchgoods
     state.searchgoods = searchgoods;
+  },
+  //同步用户信息
+  [USER_INFO](state,{userInfo}){
+    //将从客户端登录页面的用户数据 userInfo 赋值给state自定义的对象 userInfo 中
+    state.userInfo = userInfo
   }
 }

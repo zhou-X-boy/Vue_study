@@ -26,7 +26,7 @@
                 v-if="!countDown"
                 class="get-verification"
                 :class="{phone_right: phoneRight}"
-                @click="getVerifyCode()"
+                @click.prevent="getVerifyCode()"
               >
                 获取验证码
               </button>
@@ -80,8 +80,8 @@
                </section>
             </section>
           </div>
-          <button class="login-submit" @click.prevent="login()">登录</button>
         </form>
+        <button class="login-submit" @click.prevent="login()">登录</button>
         <button class="login-back" @click="$router.back()">返回</button>
       </div>
     </div>
@@ -91,7 +91,11 @@
 <script>
 //引入请求验证码的方法和手机验证码登录的方法
 import  {getPhoneCode,phoneCodeLogin} from "./../../api/index";
+//引入第三方组件库mint-ui中的组件
 import {Toast} from "mint-ui";
+
+//引入vuex中的方法
+import  {mapActions} from 'vuex';
 
 export default {
   name: "Login",
@@ -101,10 +105,12 @@ export default {
       phone: '', //手机号码
       countDown: 0,  //验证码倒计时
       pwdMode: true,  //密码的显示方式 true，密文显示；false，明文显示
-      code: ''
+      code: '',   //短信验证码
+      userInfo: {},  //用户的个人信息
     }
   },
   methods: {
+    ...mapActions(['syncUserInfo']),
     //验证码登录和密码登录表单切换
     dealLoginMode(flag) {
       this.loginMode = flag
@@ -165,14 +171,31 @@ export default {
         //验证码是否存在，格式是否正确
         if(!this.code) {  //验证码为空
           return Toast('请输入验证码');
-        }else if(!(/^\d{6}$/.test(this.code))) {  //验证码格式错误
+        }else if(!(/^\d{6}$/gi.test(this.code))) {  //验证码格式错误
           return Toast('请输入正确格式的验证码');
         }
         //2：手机验证码登录
         const result = await phoneCodeLogin(this.phone,this.code);
         console.log(result);
+        if(result.success_code === 200) {  //请求用户信息正确
+          //2.1：将用户信息放到自己定义的数据userInfo中
+          this.userInfo = result.message;
+        }else {   //登录失败
+          this.userInfo = {
+            message: '登录失败'
+          }
+        }
       }else {   //账号密码登录
 
+      }
+      //其他后续处理，统一处理用户验证码登录和密码登录出现的状态变化
+      if(!this.userInfo.id) {  //用户id不存在，失败
+        Toast(this.userInfo.message);
+      }else {
+        //1：同步用户的数据，通过Vuex状态管理，
+        this.syncUserInfo(this.userInfo);
+        //2：回到个人中心主界面
+         this.$router.back();
       }
     }
   },
@@ -282,18 +305,18 @@ export default {
             line-height 20px
             > a
               color red
-        .login-submit
-          display block
-          width 100%
-          height 42px
-          margin-top 30px
-          border-radius 4px
-          background red
-          color #fff
-          text-align center
-          font-size 16px
-          line-height 42px
-          border 0
+      .login-submit
+        display block
+        width 100%
+        height 42px
+        margin-top 30px
+        border-radius 4px
+        background red
+        color #fff
+        text-align center
+        font-size 16px
+        line-height 42px
+        border 0
       .login-back
         display block
         width 100%
