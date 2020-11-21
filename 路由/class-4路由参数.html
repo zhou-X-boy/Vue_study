@@ -2,101 +2,101 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
 <body>
-  <div id="app"></div>
+    <div id="app"></div>
 
-  <!-- 1：引入vue的模块 -->
-  <script src="/Vue_study/node_modules/vue/dist/vue.js"></script>
-  <!-- 2：引入vue-router模块 -->
-  <script src="/Vue_study/node_modules/vue-router/dist/vue-router.js"></script>
+    <!-- 1：引入vue的模块 -->
+    <script src="/Vue_study/node_modules/vue/dist/vue.js"></script>
+    <!-- 2：引入vue-router模块 -->
+    <script src="/Vue_study/node_modules/vue-router/dist/vue-router.js"></script>
 
-  <script>
-    //地址栏上 路由范式
-    //(1)xxx.html#/user/1    params动态路由
-    //(2)xxx.html#/user?userId=1   问号查询 query
-
-    //局部组件
-    var UserParams = {
-      template: `
-        <div>我是用户1</div>
-      `,
-      created() {
-        //引用vue-router时，就会抛出这两个对象 $router 和 $route（配置路由信息的对象）
-        //然后挂载到Vue实例化对象中
-        //当前组件继承了实例化对象，通过 this. 就可以获得到这两个对象
-        console.log(this.$router)
-        console.log(this.$route.params.id)
-      }
-    }
-    var UserQuery = {
-      template: `
-        <div>我是用户2</div>
-      `
-    }
-
-    //3：让Vue使用该VueRouter创建
-    // Vue.use(VueRouter)
-
-    //4：创建router对象
-    var router = new VueRouter({
-      //5：配置路由对象
-      routes: [
-        //路由匹配的规则
-
+    <script>
         //地址栏上 路由范式
         //(1)xxx.html#/user/1    params动态路由
-        {
-          //动态路由参数，以冒号开头
-          path: '/user/:id',
-          name: 'userParams',
-          component: UserParams
-        },
         //(2)xxx.html#/user?userId=1   问号查询 query
-        {
-          path: '/user',
-          name: 'userQuery',
-          component: UserQuery
-        },
-      ]
-    })
+
+        //局部组件
+        var UserParams = {
+            template: `
+        <div>我是用户1</div>
+      `,
+            created() {
+                //引用vue-router时，就会抛出这两个对象 $router 和 $route（配置路由信息的对象）
+                //然后挂载到Vue实例化对象中
+                //当前组件继承了实例化对象，通过 this. 就可以获得到这两个对象
+                console.log(this.$router)
+                console.log(this.$route.params.id)
+            }
+        }
+        var UserQuery = {
+            template: `
+        <div>我是用户2</div>
+      `
+        }
+
+        //3：让Vue使用该VueRouter创建
+        // Vue.use(VueRouter)
+
+        //4：创建router对象
+        var router = new VueRouter({
+            //5：配置路由对象
+            routes: [
+                //路由匹配的规则
+
+                //地址栏上 路由范式
+                //(1)xxx.html#/user/1    params动态路由
+                {
+                    //动态路由参数，以冒号开头
+                    path: '/user/:id',
+                    name: 'userParams',
+                    component: UserParams
+                },
+                //(2)xxx.html#/user?userId=1   问号查询 query
+                {
+                    path: '/user',
+                    name: 'userQuery',
+                    component: UserQuery
+                },
+            ]
+        })
 
 
-    //引入vue-router模块，就会抛出两个去全局组件 
-    //router-link ,中有一个属性to==>href  router-link==>渲染的a标签
-    //router-view ，对应着路由匹配组件的出口
-    var App = {
-      template: `
+        //引入vue-router模块，就会抛出两个全局组件 
+        //router-link ,中有一个属性to==>href  router-link==>渲染的a标签
+        //router-view ，对应着路由匹配组件的出口
+        var App = {
+            template: `
         <div>
           <router-link :to="{name: 'userParams',params:{id:1}}">用户1</router-link>
           <router-link :to="{name: 'userQuery',query:{userId:2}}">用户2</router-link>
           <router-view></router-view>
         </div>
       `
-    }
-
-
-    new Vue({
-      el: '#app',
-      data() {
-        return {
-
         }
-      },
-      components: {
-        App
-      },
-      //6：交给vue实例化对象管理
-      router,
-      template: `
+
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            //6：交给vue实例化对象管理
+            router,
+            template: `
         <App/>
       `
-    })
-  </script>
+        })
+    </script>
 </body>
 
 </html>

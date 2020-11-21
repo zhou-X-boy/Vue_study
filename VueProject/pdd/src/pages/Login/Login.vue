@@ -44,7 +44,7 @@
               </label>
             </section>
             <section class="login-hint">
-              温馨提示：未注册撩课帐号的手机号，登录时将自动注册，且代表已同意
+              温馨提示：未注册帐号的手机号，登录时将自动注册，且代表已同意
               <a href="javascript:">服务协议与隐私政策</a>
             </section>
           </div>
@@ -53,13 +53,13 @@
             <section>
               <section class="login-message">
                 <label>
-                  <input type="text" maxlength="11" placeholder="用户名/手机/邮箱">
+                  <input type="text" maxlength="11" placeholder="用户名/手机/邮箱" v-model="name">
                 </label>
               </section>
               <section class="login-verification">
                 <label>
-                  <input type="password" maxlength="18" placeholder="密码" v-if="pwdMode">
-                  <input type="text" maxlength="18" placeholder="密码" v-else>
+                  <input type="password" maxlength="18" placeholder="密码" v-if="pwdMode" v-model="pwd">
+                  <input type="text" maxlength="18" placeholder="密码" v-else v-model="pwd">
                 </label>
                 <div class="switch-show">
                   <img @click.prevent="dealPwdModel(false)"  :class="{on: pwdMode}" src="./images/hide_pwd.png" alt="" width="20">
@@ -68,11 +68,11 @@
               </section>
               <section class="login-message">
                 <label>
-                  <input type="text" maxlength="11" placeholder="验证码">
+                  <input class="verification" type="text" maxlength="11" placeholder="验证码" v-model="captcha">
                   <img
                     ref="captcha"
                     class="get-verification"
-                    src="http://127.0.0.1:3000/api/svgcaptcha"
+                    src="http://localhost:3000/api/svgcaptcha"
                     alt="captcha"
                     @click.prevent="getCaptCha()"
                   >
@@ -90,7 +90,7 @@
 
 <script>
 //引入请求验证码的方法和手机验证码登录的方法
-import  {getPhoneCode,phoneCodeLogin} from "./../../api/index";
+import  {getPhoneCode,phoneCodeLogin,pwdLogin} from "./../../api/index";
 //引入第三方组件库mint-ui中的组件
 import {Toast} from "mint-ui";
 
@@ -102,10 +102,13 @@ export default {
   data() {
     return {
       loginMode: true,  //登录方式 true,验证码登录； false，密码登录
-      phone: '', //手机号码
+      phone: '', //手机号码,
+      name: '',   //用户名
       countDown: 0,  //验证码倒计时
       pwdMode: true,  //密码的显示方式 true，密文显示；false，明文显示
+      pwd: '',   //密码
       code: '',   //短信验证码
+      captcha: '',  //图形验证码
       userInfo: {},  //用户的个人信息
     }
   },
@@ -134,6 +137,8 @@ export default {
       //获取短信验证码
       let result = await getPhoneCode(this.phone);
       console.log(result);
+      this.code = result.message;
+      // Toast('短信验证码为：'+ result.message);
 
       //获取验证码失败
       if(result.error_code === 0){
@@ -155,7 +160,7 @@ export default {
     //获取图形验证码
     getCaptCha() {
       //动态的将请求到的图形验证码绑定到ref=captcha的上面，也就是图形验证码所在的img标签上
-      this.$refs.captcha.src = 'http://127.0.0.1:3000/api/svgcaptcha?time=' + new Date();
+      this.$refs.captcha.src = 'http://localhost:3000/api/svgcaptcha?time=' + new Date();
     },
     //实现登录
     async login() {
@@ -186,11 +191,33 @@ export default {
           }
         }
       }else {   //账号密码登录
-
+        //1：前端校验
+        //用户名是否为空，密码是否为空，图形验证码是否为空
+        if(!this.name) {  //用户名为空
+          return  Toast('用户名不能为空');
+        }else if(!this.pwd) {  //密码为空
+          return Toast('密码不能为空');
+        }else if(!this.captcha) { //图形验证码为空
+          return Toast('图形验证码不能为空');
+        }
+        //2；用户名和密码的登录
+        const  result = await pwdLogin(this.name,this.pwd,this.captcha);
+        console.log(result);
+        if(result.success_code === 200) {  //请求用户信息正确
+          //2.1：将用户信息放到自己定义的数据userInfo中
+          this.userInfo = result.message;
+        }else {   //登录失败
+          this.userInfo = {
+            message: '登录失败'
+          }
+        }
       }
       //其他后续处理，统一处理用户验证码登录和密码登录出现的状态变化
       if(!this.userInfo.id) {  //用户id不存在，失败
         Toast(this.userInfo.message);
+        if(!this.loginMode){
+          // this.getCaptCha();
+        }
       }else {
         //1：同步用户的数据，通过Vuex状态管理，
         this.syncUserInfo(this.userInfo);
@@ -273,6 +300,8 @@ export default {
             height 48px
             font-size 14px
             background #fff
+            .verification
+              width 140px
             .get-verification
               position absolute
               top 50%
@@ -280,7 +309,7 @@ export default {
               transform translateY(-50%)
               border 0
               color #ccc
-              font-size 14px
+              font-size 15px
               background transparent
               &.phone_right
                 color red

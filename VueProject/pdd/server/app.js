@@ -10,21 +10,25 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
-app.set('trust proxy', 1);
+
 app.use(session({
-  secret: '12345',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  secret :  '12345', // 对session id 相关的cookie 进行签名
+  cookie : {maxAge : 1000 * 60 * 60 * 24}, // 设置 session 的有效时间，单位毫秒},
+  resave : false,
+  saveUninitialized: true, // 是否保存未初始化的会话
 }));
+
 
 //跨域问题
 app.all("*", function(req, res, next) {
   if (!req.get("Origin")) return next();
   // use "*" here to accept any origin
+  // res.set("Access-Control-Allow-Origin","*");
   res.set("Access-Control-Allow-Origin","*");
-  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Methods", "GET,POST");
+  res.set("Access-Control-Allow-Headers", "X-Requested-With");
   res.set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+  // res.setHeader("P3P","CP=CAO PSA OUR");
   // res.set('Access-Control-Allow-Max-Age', 3600);
   if ("OPTIONS" === req.method) return res.sendStatus(200);
   next();
@@ -39,6 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -59,6 +59,6 @@ export default {
   },
   //同步用户信息
   syncUserInfo({commit},userInfo){
-    commit(USER_INFO,{userInfo})
+    commit(USER_INFO,{userInfo});
   }
 }

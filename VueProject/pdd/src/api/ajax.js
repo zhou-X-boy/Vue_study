@@ -1,7 +1,7 @@
 //引入axios模块
 import axios from 'axios'
 
-export default function ajax(url = '',params = {},type = 'GET') {
+export default function ajax(url = '',params = {},type = 'GET'){
   //1：定义promise对象
   let promise ;
   //请求成功返回的方法 resolve,请求失败返回的方法 reject

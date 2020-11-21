@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+//引入第三方的加密方法，对密码进行加密
+const md5 = require('blueimp-md5');
 
 //引入连接的mysql的模块
 const conn = require('./../db/db');
@@ -14,7 +16,11 @@ const sms_util = require("./../util/sms_util");
 /**
  * res：客户端提交给服务器的信息
  * req：服务端发送给客户端的信息
+ * get请求，获取客户端数据通过 req.query
+ * post请求，获取客户端数据通过 req.body
  */
+
+let users = {}; //用户信息
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -262,7 +268,6 @@ router.get('/api/searchgoods', (req, res)=>{
   }, 10);
 });
 
-
 /**
  * 一次性图形验证码
  */
@@ -279,7 +284,7 @@ router.get('/api/svgcaptcha',(req, res)=> {
 
   //2：保存到session当中     toLocaleLowerCase()方法，将字符全部转化为小写
   req.session.captcha = captcha.text.toLocaleLowerCase();
-  // console.log(req.session.captcha);
+  // console.log(req.session);
   // //3：返回给客户端
   res.type('svg');
   res.send(captcha.data);
@@ -288,7 +293,6 @@ router.get('/api/svgcaptcha',(req, res)=> {
 /**
  * 发送验证码短信
  */
-let users = {}; //用户信息
 router.get('/api/sendcode',(req,res)=> {
   //1：获取手机号码
   let phone = req.query.phone;
@@ -330,7 +334,7 @@ router.get('/api/sendcode',(req,res)=> {
   //   });
   // },2000);
 
-})
+});
 
 /**
  * 手机验证码登录
@@ -419,6 +423,103 @@ router.post('/api/logincode',(req,res)=> {
       }
     });
   }
+});
+
+/**
+ * 账号密码登录
+ */
+router.post('/api/loginpwd',(req,res)=> {
+  //1：获取客户端传递过来的数据
+  const user_name = req.body.name;
+  //密码使用md5进行加密
+  const user_pwd = md5(req.body.pwd);
+  //调取图形验证码的接口获取的图形验证码是小写，这里也需要将图形验证码转换为小写
+  const captcha = req.body.captcha.toLowerCase();
+  // console.log(user_name,user_pwd,captcha);
+  // console.log(req.session);
+  //2：验证图形验证码是否正确
+  if(captcha !== req.session.captcha) {
+    return res.json({
+              error_code: 1,
+              message: '图形验证码错误'
+            });
+  }
+  //删除旧的图形验证码
+  delete req.session.captcha;
+  //3：查询语句
+  let sqlStr = "SELECT * FROM user_info WHERE user_name='"+user_name+"' LIMIT 1";
+  //4：执行语句
+  conn.query(sqlStr,(error,results)=> {
+    if(error) {
+      res.json({
+        error_code: 0,
+        message: '用户名错误'
+      })
+    }else {
+      //5：将从数据库查询到的数据转化为字符串后再转换为JSON格式
+      results = JSON.parse(JSON.stringify(results));
+      // console.log(results);
+      if(results[0]) {  //用户已经存在
+        //6：验证密码是否正确
+        if(md5(results[0].user_pwd) !== user_pwd) {  //密码错误
+          res.json({
+            error_code: 0,
+            message: '密码错误'
+          });
+        }else {
+          //将用户id保存在session中
+          req.session.userId = results[0].id;
+          //返回数据给客户端
+          res.json({
+            success_code: 200,
+            message: {
+              id: results[0].id,
+              user_name: results[0].user_name,
+              user_phone: results[0].user_phone
+            },
+            info: '登录成功'
+          });
+        }
+      }else {  //新用户
+        //插入语句
+        const sqlStr = "INSERT INTO user_info(user_name,user_pwd) VALUES (?,?)";
+        //执行语句
+        const addParams = [user_name,user_pwd];
+        conn.query(sqlStr,addParams,(error,results)=> {
+          //将从数据库中获取的数据转换为字符串类型再转换为JSON格式
+          results = JSON.parse(JOSN.stringify(results));
+          if(!error) {
+            //将用户的id保存在session当中
+            req.session.userId = results.id;
+            //定义查询语句，根据用户id查询数据
+            const sqlStr = "SELECT * FROM user_info WHERE id = '"+ results.id+"' LIMIT 1";
+            //执行语句
+            conn.query(sqlStr,(error,results)=> {
+              if(error) {
+                res.json({
+                  error_code: 0,
+                  message: '请求数据失败'
+                })
+              }else {
+                //将从数据库表中查询到的数据转换为字符串格式再转换为JSON格式
+                results = JSON.parse(JSON.stringify(results));
+                //返回数据给客户端
+                res.json({
+                  success_code: 200,
+                  message: {
+                    id: results[0].id,
+                    user_name: results[0].user_name,
+                    user_phone: results[0].user_phone
+                  }
+                })
+              }
+            });
+          }
+        });
+      }
+    }
+    // console.log(req.session);
+  });
 });
 
 module.exports = router;
