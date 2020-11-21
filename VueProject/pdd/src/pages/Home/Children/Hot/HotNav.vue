@@ -114,9 +114,10 @@ export default {
   width 100%
   height 180px
   position relative //生成相对定位的元素，相对于其正常位置进行定位。
+  top 10px
   background #fff
   padding-bottom 10px
-  z-index 998
+  z-index 900
   .hot-nav-content
     width 100%
     overflow-x scroll // 水平超出部分滚动

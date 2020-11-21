@@ -6,6 +6,8 @@ import {
   getHomeShopList,
   getRecommendShopList,
   getSearchGoods,
+  getUserInfo,
+  getLoginOut
 } from '../api'
 
 import {
@@ -14,7 +16,8 @@ import {
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
-  USER_INFO
+  USER_INFO,
+  RESET_USER_INFO
 } from './mutation-types'
 
 export default {
@@ -59,6 +62,27 @@ export default {
   },
   //同步用户信息
   syncUserInfo({commit},userInfo){
+    //commit 异步 触发指定的 mutations 中的方法
     commit(USER_INFO,{userInfo});
+  },
+  //异步获取用户的信息
+  async getUserInfo({commit}){
+    //提取服务端的请求数据并赋值给一个新的数组，也就是api文件夹下的index.js中的getUserInfo函数所获取到的数据
+    const result = await getUserInfo();
+    console.log(result);
+    if(result.success_code === 200) {  //请求成功
+      //commit 异步 触发指定的 mutations 中的方法
+      commit(USER_INFO,{userInfo: result.message});
+    }
+  },
+  //退出登录,异步清空userInfo中的用户信息
+  async loginOut({commit}){
+    //提取服务端的请求数据并赋值给一个新的数组，也就是api文件夹下的index.js中的getLoginOut函数所获取到的数据也就是空的数据
+    const result = await getLoginOut();
+    console.log(result);
+    if(result.success_code === 200) {
+      //commit 异步 触发指定的 mutations 中的方法
+      commit(RESET_USER_INFO);
+    }
   }
 }

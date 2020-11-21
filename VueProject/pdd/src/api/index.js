@@ -29,3 +29,9 @@ export const phoneCodeLogin = (phone,code)=> ajax(BASE_URL+'/api/logincode',{pho
 
 //2.8：账号密码登录
 export const pwdLogin = (name,pwd,captcha)=> ajax(BASE_URL+'/api/loginpwd',{name,pwd,captcha},'POST');
+
+//2.9：获取登录的用户信息
+export const getUserInfo = ()=> ajax(BASE_URL+'/api/userinfo');
+
+//2.10：退出登录
+export const getLoginOut = ()=> ajax(BASE_URL+'/api/loginout');

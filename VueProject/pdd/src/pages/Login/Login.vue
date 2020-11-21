@@ -1,5 +1,10 @@
 <template>
   <div class="login-container">
+    <mt-header :title="loginMode? '手机号登录':'账号密码登录'" class="header">
+      <router-link to="/me" slot="left">
+        <mt-button icon="back" class="back"></mt-button>
+      </router-link>
+    </mt-header>
     <!--登录面板内容部分-->
     <div class="login-inner">
       <!--面板头部-->
@@ -180,14 +185,16 @@ export default {
           return Toast('请输入正确格式的验证码');
         }
         //2：手机验证码登录
+          //获取从服务端传递过来的用户信息
         const result = await phoneCodeLogin(this.phone,this.code);
         console.log(result);
         if(result.success_code === 200) {  //请求用户信息正确
           //2.1：将用户信息放到自己定义的数据userInfo中
           this.userInfo = result.message;
+          Toast('登录成功');
         }else {   //登录失败
           this.userInfo = {
-            message: '登录失败'
+            message: '登录失败' + result.message
           }
         }
       }else {   //账号密码登录
@@ -201,14 +208,16 @@ export default {
           return Toast('图形验证码不能为空');
         }
         //2；用户名和密码的登录
+          //获取从服务端传递过来的用户信息
         const  result = await pwdLogin(this.name,this.pwd,this.captcha);
         console.log(result);
         if(result.success_code === 200) {  //请求用户信息正确
           //2.1：将用户信息放到自己定义的数据userInfo中
           this.userInfo = result.message;
+          Toast(result.info);
         }else {   //登录失败
           this.userInfo = {
-            message: '登录失败'
+            message: result.message
           }
         }
       }
@@ -253,6 +262,13 @@ export default {
   width 100%
   height 100%
   background #fff
+  .header
+    top 5px
+    color black
+    background-color #ffffff
+    .back
+      position flex
+      left 15px
   .login-inner
     padding-top 30px
     width 80%
@@ -302,6 +318,8 @@ export default {
             background #fff
             .verification
               width 140px
+              font-size 19px
+              font-weight lighter
             .get-verification
               position absolute
               top 50%

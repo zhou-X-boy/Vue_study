@@ -6,7 +6,8 @@ import {
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
-  USER_INFO
+  USER_INFO,
+  RESET_USER_INFO
 } from './mutation-types'
 
 export default {
@@ -39,5 +40,10 @@ export default {
   [USER_INFO](state,{userInfo}){
     //将从客户端登录页面的用户数据 userInfo 赋值给state自定义的对象 userInfo 中
     state.userInfo = userInfo
+  },
+  //清空用户信息
+  [RESET_USER_INFO](state){
+    //将从客户端登录页面的空用户数据赋值给state自定义的对象 userInfo 中
+    state.userInfo = {};
   }
 }

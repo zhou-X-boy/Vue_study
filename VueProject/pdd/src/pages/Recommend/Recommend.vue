@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       page: 1,
-      count: 6  //请求的数据个数
+      count: 6,  //请求的数据个数
     }
   },
   components: {
@@ -73,11 +73,21 @@ export default {
        //2.1：监听下拉
        //  console.log(pos.y);
        //  console.log(this.listScroll.maxScrollY);
-        if(pos.y >= 50 ) {
-          console.log("下拉刷新");
+        if(pos.y >= 50 ) {  //下拉刷新
+          // console.log("下拉刷新");
+          Indicator.open();
+          this.$store.dispatch('reqRecommendShopList',{
+            page: this.page,
+            count: this.count,
+            callback: ()=> {
+              Indicator.close();
+              //将原来数组中的元素颠倒顺序
+              this.$store.state.recommendshoplist.reverse();
+            },
+          });
         }
         // 2.2：监听上拉
-        if(this.listScroll.maxScrollY > pos.y + 20) {
+        if(this.listScroll.maxScrollY > pos.y + 20) {  //上拉加载更多
           // console.log("上拉加载更多");
           Indicator.open({
             text: '加载中...',

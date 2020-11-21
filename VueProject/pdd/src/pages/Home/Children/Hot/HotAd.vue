@@ -12,7 +12,9 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .hot-ad
+  position relative
   background-color #fff
   margin 5px 0
   padding 5px
+  top 15px
 </style>

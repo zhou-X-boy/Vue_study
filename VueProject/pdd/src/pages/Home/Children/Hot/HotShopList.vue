@@ -41,8 +41,10 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .shop-container
+  position relative
   margin-bottom 50px
   background-color #f5f5f5
+  top 15px
   .shop-list
     .shop-list-item
       margin-bottom 10px

@@ -63,5 +63,6 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-
+.swiper-container
+  display flex
 </style>

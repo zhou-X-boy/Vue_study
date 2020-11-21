@@ -432,7 +432,7 @@ router.post('/api/loginpwd',(req,res)=> {
   //1：获取客户端传递过来的数据
   const user_name = req.body.name;
   //密码使用md5进行加密
-  const user_pwd = md5(req.body.pwd);
+  const user_pwd = req.body.pwd;
   //调取图形验证码的接口获取的图形验证码是小写，这里也需要将图形验证码转换为小写
   const captcha = req.body.captcha.toLowerCase();
   // console.log(user_name,user_pwd,captcha);
@@ -461,7 +461,7 @@ router.post('/api/loginpwd',(req,res)=> {
       // console.log(results);
       if(results[0]) {  //用户已经存在
         //6：验证密码是否正确
-        if(md5(results[0].user_pwd) !== user_pwd) {  //密码错误
+        if(results[0].user_pwd !== user_pwd) {  //密码错误
           res.json({
             error_code: 0,
             message: '密码错误'
@@ -484,23 +484,23 @@ router.post('/api/loginpwd',(req,res)=> {
         //插入语句
         const sqlStr = "INSERT INTO user_info(user_name,user_pwd) VALUES (?,?)";
         //执行语句
-        const addParams = [user_name,user_pwd];
-        conn.query(sqlStr,addParams,(error,results)=> {
+        const addParams = [user_name, user_pwd];
+        conn.query(sqlStr, addParams, (error, results) => {
           //将从数据库中获取的数据转换为字符串类型再转换为JSON格式
-          results = JSON.parse(JOSN.stringify(results));
-          if(!error) {
+          results = JSON.parse(JSON.stringify(results));
+          if (!error) {
             //将用户的id保存在session当中
-            req.session.userId = results.id;
+            req.session.userId = results.insertId;
             //定义查询语句，根据用户id查询数据
-            const sqlStr = "SELECT * FROM user_info WHERE id = '"+ results.id+"' LIMIT 1";
+            const sqlStr = "SELECT * FROM user_info WHERE id = '" + results.insertId + "' LIMIT 1";
             //执行语句
-            conn.query(sqlStr,(error,results)=> {
-              if(error) {
+            conn.query(sqlStr, (error, results) => {
+              if (error) {
                 res.json({
                   error_code: 0,
                   message: '请求数据失败'
                 })
-              }else {
+              } else {
                 //将从数据库表中查询到的数据转换为字符串格式再转换为JSON格式
                 results = JSON.parse(JSON.stringify(results));
                 //返回数据给客户端
@@ -510,7 +510,8 @@ router.post('/api/loginpwd',(req,res)=> {
                     id: results[0].id,
                     user_name: results[0].user_name,
                     user_phone: results[0].user_phone
-                  }
+                  },
+                  info: '登录成功'
                 })
               }
             });
@@ -519,6 +520,61 @@ router.post('/api/loginpwd',(req,res)=> {
       }
     }
     // console.log(req.session);
+  });
+});
+
+/**
+ * 根据 session 中的用户id来获取用户的信息，实现自动登录效果
+ */
+router.get('/api/userinfo',(req,res)=> {
+  //1：获取 session 当中保存的用户id
+  const userId = req.session.userId;
+  //2：根据 userId 从数据库表中查询数据
+  //定义查询语句
+  const sqlStr = "SELECT * FROM user_info WHERE id = '"+ userId +"' LIMIT 1";
+  //执行语句
+  conn.query(sqlStr,(error,results)=> {
+    if(error) {
+      res.json({
+        error_code: 0,
+        message: '请求数据失败'
+      });
+    }else {
+      //将查询到的用户数据转换为字符串格式再转换为JSON格式
+      results = JSON.parse(JSON.stringify(results));
+      if(!results[0]) {  //用户不存在
+        //删除没有查到数据的session中的userId
+        delete req.session.userId;
+        //向客户端返回信息
+        res.json({
+          error_code: 1,
+          message: '请先登录'
+        })
+      }else {
+        //向客户端返送数据
+        res.json({
+          success_code: 200,
+          message: {
+            id: results[0].id,
+            user_name: results[0].user_name,
+            user_phone: results[0].user_phone
+          }
+        });
+      }
+    }
+  });
+});
+
+/**
+ * 退出登录，清除保存在 session 中的userId
+ */
+router.get('/api/loginout',(req,res)=> {
+  //1：清除 session 中的userId
+  delete req.session.userId;
+  //2：提示用户
+  res.json({
+    success_code: 200,
+    message: '退出登录成功'
   });
 });
 

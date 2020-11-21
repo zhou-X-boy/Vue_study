@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="673540ba-792d-4b89-a716-296c8df0a049" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/common/css/fonts/itlike.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/common/css/fonts/itlike.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/common/css/fonts/itlike.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/common/css/fonts/itlike.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/common/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Childrren/MeCommonCell.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Childrren/MeDetail.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Childrren/MeSetting.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Childrren/MeTop.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/images/me_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/项目搭建文档流程/视图层/自动登录.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../VueProject/pdd/项目搭建文档流程/视图层/退出登录.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/server/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/server/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/api/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/components/TabBar/TabBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/components/TabBar/TabBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotAd.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotAd.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotLb.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotLb.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotNav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotShopList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Children/Hot/HotShopList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Home/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Login/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Login/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Login/SelectLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Login/SelectLogin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Me.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Me/Me.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Recommend/Recommend.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Recommend/Recommend.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Search/Children/SearchNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/pages/Search/Children/SearchNav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/store/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/store/mutation-types.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/store/mutation-types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VueProject/pdd/src/store/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/../VueProject/pdd/src/store/mutations.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1kbmM6qMNuE1GIpZPk3t1x9q9nY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="673540ba-792d-4b89-a716-296c8df0a049" name="Default Changelist" comment="" />
+      <created>1605977614683</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605977614683</updated>
+      <workItem from="1605977615823" duration="83000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

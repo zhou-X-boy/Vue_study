@@ -23,6 +23,10 @@ import Shirt from "../pages/Home/Children/Shirt/Shirt";
 import Man from "../pages/Home/Children/Man/Man";
 import Ele from "../pages/Home/Children/Ele/Ele";
 
+//引入个人中心页二级路由
+import MeSetting from "../pages/Me/Childrren/MeSetting";
+import MeDetail from "../pages/Me/Childrren/MeDetail";
+
 //2：声名使用
 Vue.use(VueRouter);
 
@@ -69,15 +73,10 @@ export default new VueRouter({
       path: '/me',
       component: Me,
       meta: {showBottomTabBar: true}
-
     },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/',
-      redirect:'/home'
-    }
+    {path: '/setting', component: MeSetting},
+    {path: '/detail', component: MeDetail},
+    {path: '/login', component: Login},
+    {path: '/', redirect:'/home'}
   ]
 })

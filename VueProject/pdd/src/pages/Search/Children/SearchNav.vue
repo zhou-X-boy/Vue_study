@@ -23,9 +23,11 @@ export default {
   height 60px
   background-color #ffffff
   border-bottom-1px(#cccccc)  //导入的mixins.style中的一个样式   1px下边线
+  position fixed
   display flex  //伸缩布局
   justify-content center  //水平居中
   align-items center    //垂直居中
+  z-index 1000
   .search-nav-icon
     width 90%
     height 70%

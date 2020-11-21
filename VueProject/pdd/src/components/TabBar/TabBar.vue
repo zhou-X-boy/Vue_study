@@ -10,7 +10,7 @@
     </span>
     <span class="tab-item" @click="switchTo('/search')">
       <img :src="$route.path.includes('/search') ? tabBarImgArr[2].selected : tabBarImgArr[1].normal" alt="">
-      <span :class="{on : $route.path.includes('/search')}">搜索</span>
+      <span :class="{on : $route.path.includes('/search')}">分类</span>
     </span>
     <span class="tab-item" @click="switchTo('/chat')">
       <img :src="$route.path.includes('/chat') ? tabBarImgArr[3].selected : tabBarImgArr[3].normal" alt="">

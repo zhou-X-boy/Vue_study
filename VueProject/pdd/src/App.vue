@@ -13,6 +13,10 @@ export default {
   name: "App",
   components: {
     TabBar
+  },
+  //生命周期函数，vue实例化时被调用
+  created () {
+    this.$store.dispatch('getUserInfo');
   }
 }
 </script>

@@ -1,20 +1,31 @@
 <template>
   <div class="home">
-    <ly-tab v-model="selectedId"
-            :items="items"
-            :options="options"
-            @change="handleChange"
-            class="fix"
-    />
+    <div class="header">
+      <!--搜索框-->
+      <search-nav class="search" :isShowSearchPanel="isShowSearchPanel"/>
+      <!--点击搜索框跳转的面板-->
+      <search-panel v-if="isShow" :isShowSearchPanel="isShowSearchPanel"/>
+      <!--首页头部导航-->
+      <ly-tab v-model="selectedId"
+              :items="items"
+              :options="options"
+              @change="handleChange"
+              class="fix"
+              v-show="!isShow"
+      />
+    </div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import SearchNav from "../Search/Children/SearchNav";
+import SearchPanel from "../Search/Children/SearchPanel";
 export default {
   name: "Home",
   data () {
     return {
+      isShow: false,  //设置搜索面板的显示
       selectedId: 0, //选择首页头部的子组件的ID
       items: [
         {label: '热门'},
@@ -44,7 +55,14 @@ export default {
       ],
     }
   },
+  components: {
+    SearchNav,SearchPanel
+  },
   methods: {
+    //设置搜索面板的显示
+    isShowSearchPanel(flag) {
+      this.isShow = flag;
+    },
     handleChange(item,index) {
       this.$router.replace(this.subRouter[index]);
     }
@@ -58,10 +76,19 @@ export default {
   width 100%
   height 100%
   background-color #f5f5f5
-  .fix
-    width 100%
-    position fixed //生成固定定位的元素，相对于浏览器窗口进行定位。
-    left 0
-    top 0
-    z-index 998
+  .header
+    height 45px
+    background-color #ffffff
+    z-index 1000
+    .search
+      height 47px
+      font-size 12px
+    .fix
+      width 100%
+      height 30px
+      position fixed //生成固定定位的元素，相对于浏览器窗口进行定位。
+      background-color #ffffff
+      left 0
+      top 40px
+      z-index 1000
 </style>
