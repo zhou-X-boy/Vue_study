@@ -6,20 +6,24 @@
       </router-link>
     </mt-header>
     <div>
-      <me-common-cell
-        v-if="phone"
-        left-icon="itlike-3"
-        left-title="已绑定手机号"
-        :right-title="phone | phoneFormat "
-        right-title-color="#666666"
-      />
-      <me-common-cell
-        v-else
-        left-icon="itlike-3"
-        left-title="请绑定手机号"
-        right-title-color="#666666"
-      />
-      <me-common-cell left-icon="itlike-1" left-title="账户与安全"/>
+      <router-link tag="div" to="/settingphone">
+        <me-common-cell
+          v-if="phone"
+          left-icon="itlike-3"
+          left-title="已绑定手机号"
+          :right-title="phone | phoneFormat "
+          right-title-color="#666666"
+        />
+        <me-common-cell
+          v-else
+          left-icon="itlike-3"
+          left-title="请绑定手机号"
+          right-title-color="#666666"
+        />
+      </router-link>
+      <router-link tag="div" to="/mepwd">
+        <me-common-cell left-icon="itlike-1" left-title="账户与安全"/>
+      </router-link>
     </div>
     <div style="margin-top:6px">
       <me-common-cell left-icon="itlike-4" left-title="免密支付设置" :click-cell="dealCellClick"/>
@@ -47,7 +51,7 @@
 </template>
 
 <script>
-import MeCommonCell from "./MeCommonCell";
+import MeCommonCell from "./Setting/SettingCommonCell";
 //1：引入vuex中从服务器端发送过来的数据，也就是state.js中的数据
 import {
   mapState,
@@ -60,11 +64,11 @@ export default {
   name: "MeSetting",
   data() {
     return {
-      phone: this.$store.state.userInfo.user_phone
+      phone: ''
     }
   },
   components: {
-    MeCommonCell
+    MeCommonCell,
   },
   methods:{
     //获取actions.js中的方法
@@ -91,6 +95,7 @@ export default {
   mounted() {
     //请求当前用户数据
     this.$store.dispatch("getUserInfo");
+    this.phone = this.userInfo.user_phone
   },
   computed: {
     //获取当前用户数据
@@ -120,6 +125,10 @@ export default {
 .header
   color black
   background-color #ffffff
+.router-link-active
+  text-decoration none
+  color #ffd04b
+
 .me-setting:nth-child(1)
   margin-top 50px
 .loginout

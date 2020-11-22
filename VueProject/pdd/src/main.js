@@ -21,11 +21,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 //全局引用Me页需要的字体图标
 import '@/common/css/style.css'
 
-//引入第三方组件 地区选择
-import VDistpicker from 'v-distpicker'
-Vue.component('v-distpicker', VDistpicker);
-
-
 //全局使用第三方库LyTab
 Vue.use(LyTab);
 

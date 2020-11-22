@@ -5,7 +5,7 @@
     <div class="item-bottom">
       <span class="item-price">￥{{item.price / 100}}</span>
       <span class="item-sales">{{item.sales_tip}}</span>
-      <button class="item-btn">找相似</button>
+      <button class="item-btn">加入购物车</button>
     </div>
   </a>
 </template>
@@ -29,7 +29,7 @@ export default {
   margin-bottom 15px
   .item-title
     line-height 20px
-    font-size 13px
+    font-size 10px
     font-weight lighter
     height 20px
     overflow hidden   //超出部分隐藏
@@ -39,18 +39,19 @@ export default {
     display flex  //伸缩布局
     flex-direction row  //横向分布，排列一行
     align-items center //垂直居中
-    padding 0 6px  //内部上下  左右 边距
+    padding 0 4px  //内部上下  左右 边距
     .item-price
       flex 2
       color red
       font-weight bolder
-      font-size 12px
+      font-size 10px
+      margin-left -3px
     .item-sales
       flex 4
-      font-size 10px
+      font-size 6px
       color #666666
     .item-btn
-      flex 2
+      flex 4
       border 1px solid orange
       height 25px
       border-radius 5px

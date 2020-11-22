@@ -25,7 +25,10 @@ import Ele from "../pages/Home/Children/Ele/Ele";
 
 //引入个人中心页二级路由
 import MeSetting from "../pages/Me/Childrren/MeSetting";
-import MeDetail from "../pages/Me/Childrren/MeDetail";
+import MeDetail from "../pages/Me/Childrren/UserDetail/UserDetail";
+import MePwd from "../pages/Me/Childrren/Setting/SettingPwd";
+import SettingPhone from "../pages/Me/Childrren/Setting/SettingPhone";
+
 
 //2：声名使用
 Vue.use(VueRouter);
@@ -74,8 +77,24 @@ export default new VueRouter({
       component: Me,
       meta: {showBottomTabBar: true}
     },
-    {path: '/setting', component: MeSetting},
-    {path: '/detail', component: MeDetail},
+    {
+      path: '/mepwd',
+      name:'mePwd',
+      component: MePwd
+    },
+    {
+      path: '/setting',
+      name:'setting',
+      component: MeSetting
+    },
+    {
+      path:'/settingphone',
+      component: SettingPhone
+    },
+    {
+      path: '/detail',
+      component: MeDetail
+    },
     {path: '/login', component: Login},
     {path: '/', redirect:'/home'}
   ]

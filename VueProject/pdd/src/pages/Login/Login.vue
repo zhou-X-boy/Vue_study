@@ -219,6 +219,7 @@ export default {
           this.userInfo = {
             message: result.message
           }
+          this.getCaptCha();
         }
       }
       //其他后续处理，统一处理用户验证码登录和密码登录出现的状态变化

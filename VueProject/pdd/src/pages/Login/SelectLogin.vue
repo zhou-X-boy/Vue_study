@@ -32,6 +32,7 @@ export default {
   flex-direction column   //向下分布
   justify-content center  //水平居中
   align-items center   //垂直居中
+  margin-bottom 40px
   header
     background-color #f5f5f5
     color black

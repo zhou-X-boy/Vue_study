@@ -4,12 +4,14 @@
       <me-top/>
     </div>
     <select-login v-else/>
+    <recommend/>
   </div>
 </template>
 
 <script>
 import SelectLogin from "../Login/SelectLogin";
 import MeTop from "./Childrren/MeTop"
+import Recommend from "../Recommend/Recommend";
 
 import {mapState} from 'vuex';
 
@@ -17,7 +19,8 @@ export default {
   name: "Me",
   components: {
     SelectLogin,
-    MeTop
+    MeTop,
+    Recommend
   },
   computed: {
     ...mapState(['userInfo'])

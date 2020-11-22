@@ -242,7 +242,7 @@ router.get('/api/recommendshoplist', (req, res)=>{
             success_code: 200,  //成功响应状态码
             message: results    //成功从数据库查询到的数据
           })
-        },1500);
+        },1000);
       }
     })
 
@@ -550,6 +550,7 @@ router.get('/api/userinfo',(req,res)=> {
     }else {
       //将查询到的用户数据转换为字符串格式再转换为JSON格式
       results = JSON.parse(JSON.stringify(results));
+      // console.log(results);
       if(!results[0]) {  //用户不存在
         //删除没有查到数据的session中的userId
         delete req.session.userId;
@@ -562,15 +563,16 @@ router.get('/api/userinfo',(req,res)=> {
         //向客户端返送数据
         res.json({
           success_code: 200,
-          message: {
-            id: results[0].id,
-            user_name: results[0].user_name,
-            user_phone: results[0].user_phone,
-            user_sex: results[0].user_sex,
-            user_address: results[0].user_address,
-            user_birthday: results[0].user_birthday,
-            user_sign: results[0].user_sign,
-          }
+          message: results[0]
+          //   {
+          //   id: results[0].id,
+          //   user_name: results[0].user_name,
+          //   user_phone: results[0].user_phone,
+          //   user_sex: results[0].user_sex,
+          //   user_address: results[0].user_address,
+          //   user_birthday: results[0].user_birthday,
+          //   user_sign: results[0].user_sign,
+          // }
         });
       }
     }
@@ -588,6 +590,53 @@ router.get('/api/loginout',(req,res)=> {
     success_code: 200,
     message: '退出登录成功'
   });
+});
+
+/**
+ * 修改用户的个人信息
+ */
+router.post('/api/chaanguserinfo',(req,res)=> {
+  //1：获取客户端传递过来的参数
+  const id = req.body.id;
+  const user_name = req.body.user_name;
+  const user_phone = req.body.user_phone;
+  const user_sex = req.body.user_sex;
+  const user_address = req.body.user_address;
+  const user_birthday = req.body.user_birthday;
+  const user_sign = req.body.user_sign;
+  //2：验证id是否存在
+  if(!id) {
+    res.json({
+      error_code: 0,
+      message: '修改失败'
+    });
+  }
+  if(user_name !== '' && user_phone !==''){
+    //3：更新数据库中的数据
+    //：定义更新数据的SQL语句
+    let sqlStr = "UPDATE user_info SET user_name = ?,user_phone = ?,user_sex = ?,user_address = ?,user_birthday = ?,user_sign = ? WHERE id = " + id;
+    //将从客户端获取到的数据封装成一个数组
+    let updateParams = [user_name,user_phone,user_sex,user_address,user_birthday,user_sign]
+    //执行语句
+    conn.query(sqlStr,updateParams,(error, results)=> {
+      if(error) {
+        res.json({
+          error_code: 0,
+          message: '修改信息失败'
+        });
+      }else {
+        res.json({
+          success_code: 200,
+          message: '保存成功'
+        })
+      }
+    });
+  }else {
+    res.json({
+      error_code: 0,
+      message: '手机号或者昵称不能为空'
+    })
+  }
 });
 
 module.exports = router;

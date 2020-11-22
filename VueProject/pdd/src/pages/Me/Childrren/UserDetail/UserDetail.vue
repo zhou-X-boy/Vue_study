@@ -7,14 +7,14 @@
     </mt-header>
     <div class="user-detail-top"></div>
     <div class="user-detail-group" ref="scroll">
-      <div class="user-icon">
+      <div class="user-icon" @click.prevent="userIconSheetVisible = true">
         <span>头像</span>
-        <img src="../images/me_icon.png" alt="">
+        <img src="../../images/me_icon.png" alt="">
       </div>
-      <div class="user-item" @click.prevent="detalPhone">
+      <div class="user-item" @click.prevent="changephone">
         <span>手机</span>
-        <span v-if="phone">
-          {{phone | phoneFormat}}
+        <span v-if="user_phone">
+          {{user_phone | phoneFormat}}
           <i class="itlike-uniE909"></i>
         </span>
         <span v-else>
@@ -22,11 +22,11 @@
           <i class="itlike-uniE909"></i>
         </span>
       </div>
-      <div class="user-item">
-        <span>昵称</span>
-        <span @click.prevent="detalName">
+      <div class="user-item" @click.prevent="changeName">
+        <span>用户名</span>
+        <span>
           <label>
-            <input type="text" v-model="name">
+            <input type="text" v-model="user_name">
           </label>
           <i class="itlike-uniE909"></i>
         </span>
@@ -38,7 +38,7 @@
           <i class="itlike-uniE909"></i>
         </span>
       </div>
-      <div class="user-item" @click.prevent="detalAddress">
+      <div class="user-item" @click.prevent="changeAddress">
         <span>常住地</span>
         <span>
           <label>
@@ -54,7 +54,7 @@
           <i class="itlike-uniE909"></i>
         </span>
       </div>
-      <div class="user-item" @click.prevent="detalSign">
+      <div class="user-item" @click.prevent="changeSign">
         <span>个性签名</span>
         <span>
           <label>
@@ -63,8 +63,13 @@
           <i class="itlike-uniE909"></i>
         </span>
       </div>
-      <button>保存</button>
+      <button @click.prevent="saveUserInfo">保存</button>
     </div>
+    <!--头像-->
+    <mt-actionsheet
+      :actions="usericonactions"
+      v-model="userIconSheetVisible">
+    </mt-actionsheet>
     <!--选择性别-->
     <mt-actionsheet
       :actions="actions"
@@ -90,17 +95,27 @@
 import moment from 'moment'
 import {MessageBox, Toast} from 'mint-ui';
 
+import {mapState} from 'vuex';
+
+import {changeUserInfo} from "../../../../api";
+
 export default {
   name: "MeDetail",
   data () {
     return {
-      phone: this.$store.state.userInfo.user_phone,
-      name: this.$store.state.userInfo.user_name,
-      user_sign: this.$store.state.userInfo.user_sign,
-      user_address: this.$store.state.userInfo.user_address,
-      user_sex: this.$store.state.userInfo.user_sex,
-      user_birthday: this.$store.state.userInfo.user_birthday,
+      user_phone: '',
+      user_name: '',
+      user_sign: '',
+      user_address: '',
+      user_sex: '',
+      user_birthday: '',
+      userIconSheetVisible: false, //头像弹出框
       sheetVisible: false, //性别弹出框
+      usericonactions: [
+        {name: '查看大图',method: this.changeUserIcon},
+        {name: '从手机相册选择',method: this.changeUserIcon},
+        {name: '拍照',method: this.changeUserIcon}
+      ],
       actions: [
         {name: '男',method: this.selectSex},
         {name: '女',method: this.selectSex}
@@ -110,18 +125,22 @@ export default {
     }
   },
   methods: {
+    //修改头像
+    changeUserIcon() {
+      Toast('暂不支持')
+    },
     //修改电话号码
-    detalPhone() {
+    changephone() {
       MessageBox.prompt('修改手机号').then(({ value, action }) => {
         // console.log(value);
         if(!/^[1][3,5,7,8][0-9]{9}$/.test(value)){
           Toast({
-            message: '修改失败，请重新修改',
+            message: '修改失败，请校验输入的手机号是否正确',
             position: 'center',
             duration: 3000,
           });
         }else if(value.length === 11) {
-          this.phone = value
+          this.user_phone = value
           Toast({
             message: '修改成功',
           });
@@ -129,21 +148,21 @@ export default {
       });
     },
     //修改昵称
-    detalName() {
+    changeName() {
       MessageBox.prompt('修改昵称').then(({ value, action }) => {
         // console.log(value);
-        this.name = value
+        this.user_name = value
       });
     },
     //修改签名
-    detalSign() {
+    changeSign() {
       MessageBox.prompt('修改个新签名').then(({ value, action }) => {
         // console.log(value);
         this.user_sign = value
       });
     },
     //修改地址
-    detalAddress() {
+    changeAddress() {
       MessageBox.prompt('修改地址').then(({ value, action }) => {
         // console.log(value);
         this.user_address = value
@@ -164,6 +183,37 @@ export default {
       // console.log(moment(date).format("yyyy-MM-DD"));
       this.user_birthday = moment(date).format("yyyy-MM-DD");
     },
+    //保存修改的用户信息
+    async saveUserInfo() {
+      //1：请求接口
+      let result = await changeUserInfo(this.userInfo.id,this.user_name,this.user_phone,this.user_sex,this.user_address,this.user_birthday,this.user_sign);
+      // console.log(result);
+      Toast({
+        message: result.message,
+        position: 'bottom',
+        duration: 2000
+      })
+      if(result.success_code === 200){
+        //更新本地数据
+        await this.$store.dispatch('getUserInfo');
+        //返回上一级页面
+        setTimeout(()=> {
+          this.$router.go(-1);
+        },2000)
+      }
+    }
+  },
+  computed: {
+    ...mapState(['userInfo']),
+  },
+  mounted() {
+
+    this.user_phone = this.userInfo.user_phone;
+    this.user_name = this.userInfo.user_name;
+    this.user_sign = this.userInfo.user_sign;
+    this.user_address = this.userInfo.user_address;
+    this.user_sex = this.userInfo.user_sex;
+    this.user_birthday = this.userInfo.user_birthday;
   },
   filters: {
     //将手机号码由13333333333 转换为 133****3333
@@ -230,12 +280,12 @@ export default {
       width 90%
       height 40px
       line-height 40px
-      background-color #e9232c
+      background-color #ffffff
       text-align center
       margin 20px 5%
       border none
       font-size 16px
-      color #fff
+      color black
       border-radius 10px
   .right-title-color
     color #999

@@ -35,3 +35,15 @@ export const getUserInfo = ()=> ajax(BASE_URL+'/api/userinfo');
 
 //2.10：退出登录
 export const getLoginOut = ()=> ajax(BASE_URL+'/api/loginout');
+
+//2.11：修改用户信息
+export const changeUserInfo = (id,user_name,user_phone,user_sex,user_address,user_birthday,user_sign)=> ajax(BASE_URL+'/api/chaanguserinfo',
+  {
+    id,
+    user_name,
+    user_phone,
+    user_sex,
+    user_address,
+    user_birthday,
+    user_sign
+  },'POST');

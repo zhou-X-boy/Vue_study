@@ -1,5 +1,9 @@
 <template>
   <div class="me-top">
+    <mt-header v-if="" fixed  title="个人中心" class="header">
+      <router-link to="/setting"  slot="left">
+      </router-link>
+    </mt-header>
     <router-link tag="div" class="user" to="/detail">
       <img src="../images/me_icon.png" alt="">
       <p v-if="name">{{name}}</p>
@@ -76,13 +80,21 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "MeTop",
   data() {
     return {
-      phone: this.$store.state.userInfo.user_phone,
-      name: this.$store.state.userInfo.user_name,
+      phone: '',
+      name: '',
     }
+  },
+  mounted() {
+    this.phone = this.userInfo.user_phone
+    this.name = this.userInfo.user_name
+  },
+  computed: {
+    ...mapState(['userInfo'])
   },
   filters: {
     //将手机号码13333333333 转换为 133****3333
@@ -107,13 +119,20 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .me-top
   font-size 14px
+  .header
+    color black
+    background-color #ffffff
   .user
     display flex
     flex-direction row
     align-items center
     padding 20px
+    position fixed
+    top 40px
+    width 100%
     background-color #fff
     margin-bottom 10px
+    z-index 1001
     p
       margin 0 10px
     img
@@ -124,6 +143,7 @@ export default {
       font-size 25px
   .my-older
     background-color #fff
+    margin-top 130px
     .older-top
       display flex
       flex-direction row
@@ -148,10 +168,11 @@ export default {
     margin-top 10px
     background-color #fff
     display flex
-    justify-content space-between
-    flex-wrap wrap
+    justify-content flex-start  //项目位于容器的开头。
+    align-items center //垂直居中
+    flex-wrap wrap  //一行显示不下，自动换行
     .setting-item
-      width 90px
+      width 75px
       height 70px
       display flex
       flex-direction column
@@ -161,4 +182,6 @@ export default {
         font-size 30px
         color orange
         margin-bottom 5px
+      span
+        font-size 13px
 </style>
