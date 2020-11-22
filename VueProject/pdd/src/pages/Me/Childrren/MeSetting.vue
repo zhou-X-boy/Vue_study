@@ -7,9 +7,16 @@
     </mt-header>
     <div>
       <me-common-cell
+        v-if="phone"
         left-icon="itlike-3"
         left-title="已绑定手机号"
         :right-title="phone | phoneFormat "
+        right-title-color="#666666"
+      />
+      <me-common-cell
+        v-else
+        left-icon="itlike-3"
+        left-title="请绑定手机号"
         right-title-color="#666666"
       />
       <me-common-cell left-icon="itlike-1" left-title="账户与安全"/>

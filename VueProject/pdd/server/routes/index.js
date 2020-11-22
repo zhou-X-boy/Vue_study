@@ -475,7 +475,11 @@ router.post('/api/loginpwd',(req,res)=> {
             message: {
               id: results[0].id,
               user_name: results[0].user_name,
-              user_phone: results[0].user_phone
+              user_phone: results[0].user_phone,
+              user_sex: results[0].user_sex,
+              user_address: results[0].user_address,
+              user_birthday: results[0].user_birthday,
+              user_sign: results[0].user_sign,
             },
             info: '登录成功'
           });
@@ -509,7 +513,11 @@ router.post('/api/loginpwd',(req,res)=> {
                   message: {
                     id: results[0].id,
                     user_name: results[0].user_name,
-                    user_phone: results[0].user_phone
+                    user_phone: results[0].user_phone,
+                    user_sex: results[0].user_sex,
+                    user_address: results[0].user_address,
+                    user_birthday: results[0].user_birthday,
+                    user_sign: results[0].user_sign,
                   },
                   info: '登录成功'
                 })
@@ -557,7 +565,11 @@ router.get('/api/userinfo',(req,res)=> {
           message: {
             id: results[0].id,
             user_name: results[0].user_name,
-            user_phone: results[0].user_phone
+            user_phone: results[0].user_phone,
+            user_sex: results[0].user_sex,
+            user_address: results[0].user_address,
+            user_birthday: results[0].user_birthday,
+            user_sign: results[0].user_sign,
           }
         });
       }

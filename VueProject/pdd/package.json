@@ -10,12 +10,15 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@better-scroll/core": "^2.0.5",
     "axios": "^0.21.0",
     "better-scroll": "^2.0.5",
     "element-ui": "^2.14.1",
     "ly-tab": "^2.1.2",
     "mint-ui": "^2.2.13",
+    "moment": "^2.29.1",
     "swiper": "^6.3.5",
+    "v-distpicker": "^1.2.8",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^4.1.1",
     "vue-router": "^3.0.1",
