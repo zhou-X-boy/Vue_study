@@ -1,11 +1,11 @@
 <template>
-  <a class="recommend-item"  >
+  <a class="recommend-item" >
     <img :src="item.thumb_url" alt="" width="100%" v-if="item.thumb_url">
     <h4 class="item-title">{{item.short_name}}</h4>
     <div class="item-bottom">
       <span class="item-price">￥{{item.price / 100}}</span>
       <span class="item-sales">{{item.sales_tip}}</span>
-      <button class="item-btn">加入购物车</button>
+      <button class="item-btn" @click.prevent="clickCellBtn(item)">加入购物车</button>
     </div>
   </a>
 </template>
@@ -14,7 +14,11 @@
 export default {
   name: "ShopList",
   props: {
-    item: Object
+    item: Object,
+    clickCellBtn: {
+      type: Function,
+      default: ()=> {}
+    }
   }
 }
 </script>

@@ -6,6 +6,7 @@
         v-for="(item,index) in recommendshoplist"
         :key="index"
         :item="item"
+        :clickCellBtn="dealWithCellBtnClick"
       />
     </ul>
   </div>
@@ -20,6 +21,10 @@ import ShopList from './../../components/ShopList/ShopList'
 //引入的第三方组件
 import BScroll from "better-scroll"
 import { Indicator } from 'mint-ui';
+
+import {Toast} from 'mint-ui';
+
+import {addGoodsCart} from "../../api/index";
 
 export default {
   name: "Recommend",
@@ -49,7 +54,7 @@ export default {
   },
   computed: {
     //3：获取首页导航数据
-    ...mapState(['recommendshoplist'])
+    ...mapState(['recommendshoplist','userInfo'])
   },
   watch: {
    recommendshoplist() {
@@ -62,6 +67,7 @@ export default {
    }
   },
   methods: {
+    //上下滚动
     _initBScroll(){
       //1：初始化
       this.listScroll = new BScroll('.recommend-container',{
@@ -108,6 +114,22 @@ export default {
         // console.log(111);
         this.listScroll.refresh();
       });
+    },
+    //商品点击
+    async dealWithCellBtnClick(goods) {
+      console.log(goods);
+      //1：调用接口请求数据
+      let result = await addGoodsCart(this.userInfo.id,goods.goods_id,goods.goods_name,goods.thumb_url,goods.price);
+      console.log(result);
+      if(result.success_code === 200) {
+        Toast({
+          message: result.message
+        });
+      }else {
+        Toast({
+          message: result.message
+        });
+      }
     }
   }
 }

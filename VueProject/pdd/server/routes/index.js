@@ -639,4 +639,76 @@ router.post('/api/chaanguserinfo',(req,res)=> {
   }
 });
 
+/**
+ * 添加商品到购物车
+ */
+router.post('/api/add_shop_cart', (req, res) => {
+  // 1. 验证用户
+  let id = req.body.id;
+  if(!id || id !== req.session.userId){
+    res.json({
+      err_code:0,
+      message:'请先登录'
+    });
+    return;
+  }
+
+  // 2. 获取客户端传过来的商品信息
+  let goods_id = req.body.goods_id;
+  let goods_name = req.body.goods_name;
+  let thumb_url = req.body.thumb_url;
+  let price = req.body.price;
+  let buy_count = 1;
+  let is_pay = 0; // 0 未购买 1购买
+
+  // 3. 查询数据
+  let sql_str = "SELECT * FROM cart WHERE goods_id = '" + goods_id + "' LIMIT 1";
+  console.log(sql_str);
+  conn.query(sql_str, (error, results, fields) => {
+    if (error) {
+      res.json({
+        err_code: 0,
+        message: '服务器错误!'
+      });
+    } else {
+      results = JSON.parse(JSON.stringify(results));
+      // console.log(results);
+      if (results[0]) { // 3.1 商品已经存在，将数据库表种的 buy_count 字段加 1
+        let buy_count = results[0].buy_count + 1;
+        let sqlStr = "UPDATE cart SET buy_count = "+ buy_count +" WHERE goods_id = '"+ goods_id +"'";
+        conn.query(sqlStr,(error, results)=> {
+          if(error) {
+            res.json({
+              err_code: 0,
+              message: '添加购物车失败'
+            });
+          }else {
+            res.json({
+              success_code: 200,
+              message: '添加购物车成功'
+            });
+          }
+        });
+      } else { // 3.2 商品不存在，将商品信息插入到数据库表中
+        let addSql = "INSERT INTO cart(goods_id,goods_name,thumb_url,price,buy_count,is_pay) VALUES (?,?,?,?,?,?)";
+        let addShopCart = [goods_id,goods_name,thumb_url,price,buy_count,is_pay];
+        conn.query(addSql,addShopCart,(error, results)=> {
+          if(error) {
+            res.json({
+              error_code: 0,
+              message: '加入购物车失败'
+            });
+          }else {
+            res.json({
+              success_code: 200,
+              message: '添加购物车成功'
+            });
+          }
+        });
+      }
+    }
+  });
+
+});
+
 module.exports = router;

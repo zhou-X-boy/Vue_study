@@ -17,58 +17,59 @@
       </div>
       <div class="older-bottom">
         <div class="bottom-item">
-          <i class="itlike-1"></i>
+<!--          <i class="itlike-1"></i>-->
+          <i class="icon-fk"></i>
           <span>待付款</span>
         </div>
         <div class="bottom-item">
-          <i class="itlike-2"></i>
+          <i class="icon-fx"></i>
           <span>待分享</span>
         </div>
         <div class="bottom-item">
-          <i class="itlike-3"></i>
+          <i class="icon-dgwc"></i>
           <span>待发货</span>
         </div>
         <div class="bottom-item">
-          <i class="itlike-4"></i>
+          <i class="icon-sh"></i>
           <span>待收货</span>
         </div>
         <div class="bottom-item">
-          <i class="itlike-5"></i>
+          <i class="icon-dpj"></i>
           <span>待评价</span>
         </div>
       </div>
     </div>
     <div class="setting">
       <div class="setting-item">
-        <i class="itlike-1"></i>
+        <i class="icon-xrhb"></i>
         <span>新人红包</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-2"></i>
+        <i class="icon-gy"></i>
         <span>多多果园</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-3"></i>
+        <i class="icon-kj"></i>
         <span>砍价免费拿</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-4"></i>
+        <i class="icon-dfl"></i>
         <span>边逛边赚</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-5"></i>
+        <i class="icon-lhb"></i>
         <span>天天领红包</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-uniE902"></i>
+        <i class="icon-dz"></i>
         <span>收货地址</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-1"></i>
+        <i class="icon-dpj"></i>
         <span>我的评价</span>
       </div>
       <div class="setting-item">
-        <i class="itlike-3"></i>
+        <i class="icon-kf"></i>
         <span>官方客服</span>
       </div>
       <router-link tag="div" class="setting-item" to="/setting">

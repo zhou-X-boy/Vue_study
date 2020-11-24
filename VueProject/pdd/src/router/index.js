@@ -35,6 +35,7 @@ Vue.use(VueRouter);
 
 //3：输出路由对象
 export default new VueRouter({
+  mode: 'history',
   //3.1：配置1级路由
   routes: [
     {

@@ -47,3 +47,12 @@ export const changeUserInfo = (id,user_name,user_phone,user_sex,user_address,use
     user_birthday,
     user_sign
   },'POST');
+
+//2.12：添加商品到购物车
+export const addGoodsCart = (id,goods_id,goods_name,thumb_url,price)=> ajax(BASE_URL+'/api/add_shop_cart',{
+  id,
+  goods_id,
+  goods_name,
+  thumb_url,
+  price
+},'POST');

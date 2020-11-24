@@ -20,6 +20,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 //全局引用Me页需要的字体图标
 import '@/common/css/style.css'
+import '@/common/icon/style.css'
 
 //全局使用第三方库LyTab
 Vue.use(LyTab);

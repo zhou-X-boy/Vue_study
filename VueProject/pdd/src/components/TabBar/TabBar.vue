@@ -9,12 +9,13 @@
       <span :class="{on : $route.path.includes('/recommend')}">推荐</span>
     </span>
     <span class="tab-item" @click="switchTo('/search')">
-      <img :src="$route.path.includes('/search') ? tabBarImgArr[2].selected : tabBarImgArr[1].normal" alt="">
+      <img :src="$route.path.includes('/search') ? tabBarImgArr[2].selected : tabBarImgArr[2].normal" alt="">
       <span :class="{on : $route.path.includes('/search')}">分类</span>
     </span>
     <span class="tab-item" @click="switchTo('/chat')">
+<!--      <img :src="$route.path.includes('/chat') ? tabBarImgArr[3].selected : tabBarImgArr[3].normal" alt="">-->
       <img :src="$route.path.includes('/chat') ? tabBarImgArr[3].selected : tabBarImgArr[3].normal" alt="">
-      <span :class="{on : $route.path.includes('/chat')}">聊天</span>
+      <span :class="{on : $route.path.includes('/chat')}">购物车</span>
     </span>
     <span class="tab-item" @click="switchTo('/me')">
       <img :src="$route.path.includes('/me') ? tabBarImgArr[4].selected : tabBarImgArr[4].normal" alt="">
@@ -30,24 +31,24 @@ export default {
     return {
       tabBarImgArr:[
         {
-          normal: require('./../../../static/img/icon_home.png'),
-          selected: require('./../../../static/img/icon_home_selected.png')
+          normal: require('../../../static/img/icon_home.png'),
+          selected: require('../../../static/img/icon_home_selected.png')
         },
         {
-          normal: require('./../../../static/img/icon_intro.png'),
-          selected: require('./../../../static/img/icon_intro_selected.png')
+          normal: require('../../../static/img/icon_intro.png'),
+          selected: require('../../../static/img/icon_intro_selected.png')
         },
         {
-          normal: require('./../../../static/img/icon_search.png'),
-          selected: require('./../../../static/img/icon_search_selected.png')
+          normal: require('../../../static/img/icon_search.png'),
+          selected: require('../../../static/img/icon_search_selected1.png')
         },
         {
-          normal: require('./../../../static/img/icon_chat.png'),
-          selected: require('./../../../static/img/icon_chat_selected.png')
+          normal: require('../../../static/img/icon_chat.png'),
+          selected: require('../../../static/img/icon_chat_selected.png')
         },
         {
-          normal: require('./../../../static/img/icon_mine.png'),
-          selected: require('./../../../static/img/icon_mine_selected.png')
+          normal: require('../../../static/img/icon_mine.png'),
+          selected: require('../../../static/img/icon_mine_selected.png')
         },
 
       ]
