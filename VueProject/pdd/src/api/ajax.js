@@ -13,7 +13,7 @@ export default function ajax(url = '',params = {},type = 'GET'){
       Object.keys(params).forEach(key => {
         paramsStr += key + '=' + params[key] +'&'
       });
-      //2.2：最后一个字符 &
+      //2.2：去除最后一个字符 &
       if(paramsStr !== ''){
         //substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
         //lastIndexOf() 方法可返回一个指定的元素在数组中最后出现的位置，从该字符串的后面向前查找。
